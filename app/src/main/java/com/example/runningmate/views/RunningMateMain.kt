@@ -17,8 +17,8 @@ fun RunningMateApp(
     NavHost(navController = navController, startDestination = PagesEnum.Register.name){
         composable(route = PagesEnum.Register.name){
             RegisterView(
-//                authenticationViewModel = authenticationViewModel,
-//                navController = navController
+                authenticationViewModel = authenticationViewModel,
+                navController = navController
             )
         }
     }
