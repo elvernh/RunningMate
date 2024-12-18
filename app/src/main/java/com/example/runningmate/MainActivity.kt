@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.runningmate.ui.theme.RunningMateTheme
+import com.example.runningmate.views.RunningMateApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             RunningMateTheme {
-
+                RunningMateApp()
             }
         }
     }
@@ -31,5 +32,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-
+    RunningMateTheme {
+        RunningMateApp()
+    }
 }

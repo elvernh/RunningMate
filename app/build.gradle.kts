@@ -52,6 +52,15 @@ android {
 dependencies {
 //    buat splashscreen
     implementation("androidx.core:core-splashscreen:1.0.0")
+//    buat navigation
+    implementation("androidx.navigation:navigation-compose:2.7.4")
+//    buat viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
+//    buat retrofit dkk
+    implementation("com.squareup.retrofit2:retrofit:2.11.0") //utk request ke bacend
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0") // utk convert json ke class
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0") //utk logging
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
