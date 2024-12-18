@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.runningmate"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.runningmate"
@@ -50,7 +50,8 @@ android {
 }
 
 dependencies {
-
+//    buat splashscreen
+    implementation("androidx.core:core-splashscreen:1.0.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
