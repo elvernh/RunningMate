@@ -4,6 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.runningmate.RunningMateApplication
 import com.example.runningmate.repositories.AuthenticationRepository
 
 class AuthenticationViewModel(
@@ -35,5 +40,16 @@ class AuthenticationViewModel(
         changeUsernameInput("")
         changePasswordInput("")
         changeEmailInput("")
+    }
+
+
+    companion object{
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as RunningMateApplication)
+                val authenticationRepository = application.container.authenticationRepository
+                AuthenticationViewModel(authenticationRepository)
+            }
+        }
     }
 }
