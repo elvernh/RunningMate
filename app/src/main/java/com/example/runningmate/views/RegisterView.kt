@@ -69,6 +69,7 @@ fun RegisterView(
                     fontSize = 25.sp
                 )
             }
+            Spacer(Modifier.height(30.dp))
             Row(Modifier.fillMaxWidth()){
                 AuthenticationOutlinedTextField(
                     inputValue = authenticationViewModel.usernameInput,
@@ -86,12 +87,52 @@ fun RegisterView(
                         onNext = {
                             focusManager.moveFocus(FocusDirection.Down)
                         }
-                    )
+                    ),
+                    Modifier.fillMaxWidth()
                 )
 
             }
             Row(Modifier.fillMaxWidth()){
-
+                AuthenticationOutlinedTextField(
+                    inputValue = authenticationViewModel.emailInput,
+                    onInputValueChange = {
+                        authenticationViewModel.changeEmailInput(it)
+                    },
+                    inputLabel = stringResource(id = R.string.emailText),
+                    inputPlaceholder = stringResource(id = R.string.emailText),
+                    leadingIconSrc = painterResource(id = R.drawable.email),
+                    keyboardType = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Next
+                    ),
+                    onKeyboardNext = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    ),
+                    Modifier.fillMaxWidth()
+                )
+            }
+            Row(Modifier.fillMaxWidth()){
+                AuthenticationOutlinedTextField(
+                    inputValue = authenticationViewModel.passwordInput,
+                    onInputValueChange = {
+                        authenticationViewModel.changePasswordInput(it)
+                    },
+                    inputLabel = stringResource(id = R.string.passwordText),
+                    inputPlaceholder = stringResource(id = R.string.passwordText),
+                    leadingIconSrc = painterResource(id = R.drawable.outline_lock_24),
+                    keyboardType = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next
+                    ),
+                    onKeyboardNext = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    ),
+                    Modifier.fillMaxWidth()
+                )
             }
         }
     }
