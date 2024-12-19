@@ -95,7 +95,6 @@ class AuthenticationViewModel(
                         TODO("Not yet implemented")
                     }
 
-
                 })
 
             }catch (error: IOException){
