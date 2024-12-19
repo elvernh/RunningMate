@@ -60,6 +60,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.11.0") //utk request ke bacend
     implementation("com.squareup.retrofit2:converter-gson:2.11.0") // utk convert json ke class
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0") //utk logging
+    implementation ("com.squareup.retrofit2:retrofit-mock:2.9.0")
 
 //    tambahin untuk datastore preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")

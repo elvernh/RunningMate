@@ -3,4 +3,8 @@
     <string name="usernameText">Username</string>
     <string name="passwordText">Password</string>
     <string name="emailText">Email</string>
+    <string name="getStarted">Get Started</string>
+    <string name="submit">Submit</string>
+
+
 </resources>

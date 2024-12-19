@@ -35,8 +35,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.runningmate.R
+import com.example.runningmate.enums.PagesEnum
+import com.example.runningmate.repositories.FakeAuthenticationRepository
 import com.example.runningmate.viewmodel.AuthenticationViewModel
 import com.example.runningmate.views.components.AuthenticationOutlinedTextField
+import com.example.runningmate.views.components.AuthenticationSubmitButton
 
 @Composable
 fun RegisterView(
@@ -48,7 +51,9 @@ fun RegisterView(
     Column(modifier = Modifier.fillMaxSize().background(backgroundColor).padding(vertical = 78.dp, horizontal = 32.dp)) {
         Row(Modifier.fillMaxWidth().clickable(
             onClick = {
-
+                navController.navigate(PagesEnum.Welcome.name){
+                    popUpTo(PagesEnum.Register.name) { inclusive = true }
+                }
             }
         ),
             verticalAlignment = Alignment.CenterVertically) {
@@ -134,6 +139,14 @@ fun RegisterView(
                     Modifier.fillMaxWidth()
                 )
             }
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 32.dp)){
+                AuthenticationSubmitButton(
+                    buttonText = stringResource(id = R.string.submit),
+                    onButtonClick = {
+                        authenticationViewModel.registerUser(navController)
+                    },
+                )
+            }
         }
     }
 }
@@ -141,8 +154,6 @@ fun RegisterView(
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 34)
 @Composable
 fun preRegisterView(){
-    RegisterView(
-        authenticationViewModel = viewModel(),
-        navController = rememberNavController()
-    )
+    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
+    RegisterView(authenticationViewModel = mockViewModel, navController = rememberNavController())
 }

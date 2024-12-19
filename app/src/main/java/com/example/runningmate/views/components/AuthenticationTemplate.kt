@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -15,6 +17,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.runningmate.R
 
 @Composable
@@ -64,4 +67,27 @@ fun AuthenticationOutlinedTextField(
         modifier = modifier,
         shape = RoundedCornerShape(12.dp)
     )
+}
+
+@Composable
+fun AuthenticationSubmitButton(
+    buttonText: String,
+    onButtonClick: () -> Unit,
+    textModifier: Modifier = Modifier,
+){
+    val primaryColor = Color(0xFF9CFF00)
+
+    Button(
+        onClick = onButtonClick,
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(primaryColor),
+    ) {
+        Text(
+            text = buttonText,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            modifier = textModifier,
+            color = Color(0xFF1E1E1E)
+        )
+    }
 }
