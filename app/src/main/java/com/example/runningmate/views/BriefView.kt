@@ -10,97 +10,127 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.runningmate.R
-import com.example.runningmate.repositories.FakeAuthenticationRepository
+import com.example.runningmate.enums.PagesEnum
 import com.example.runningmate.viewmodel.AuthenticationViewModel
-import androidx.compose.ui.text.style.TextAlign
+import com.example.runningmate.repositories.FakeAuthenticationRepository
 
-//yee
 @Composable
 fun BriefView(
     authenticationViewModel: AuthenticationViewModel,
     navController: NavHostController
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        // Background image
+    val customFont = FontFamily(Font(R.font.lexend))
+    val primaryColor = Color(0xFF9CFF00)
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
         Image(
-            painter = painterResource(id = R.drawable.unsplash_uq2e2v4lhcy), // Replace with your image
+            painter = painterResource(id = R.drawable.backimage),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
-
-        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xB0000000), // Black with 70% opacity
-                            Color(0xB0000000) // Fully transparent
-                        )
-                    )
-                )
+                .graphicsLayer(alpha = 0.4f),
         )
 
-        // Overlay content with specific vertical positioning
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
-                .padding(top = 550.dp), // Adjust this value to control vertical position
-            horizontalAlignment = Alignment.CenterHorizontally // Centers content horizontally
+                .fillMaxSize()
+                .padding(horizontal = 30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(500.dp))
+
+            // Main header text
             Text(
-                text = "It’s not just running. It’s building a better you.",
-                fontSize = 30.sp,
+                text = stringResource(id = R.string.briefHeader),
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 28.sp,
                 color = Color.White,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center, // Centers text
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+                textAlign = TextAlign.Center,
+                fontFamily = customFont
             )
+
+            // Sub header text
             Text(
-                text = "Track your progress, challenge your limits, and celebrate every milestone along the way.",
-                fontSize = 14.sp,
+                text = stringResource(id = R.string.briefSubHeader),
+                fontWeight = FontWeight.ExtraLight,
+                fontSize = 13.sp,
                 color = Color.White,
-                textAlign = TextAlign.Center, // Centers text
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
+                textAlign = TextAlign.Center,
+                fontFamily = customFont,
+                modifier = Modifier.padding(top = 5.dp)
             )
+
+            // Get Started Button
             Button(
-                onClick = { /* Handle Get Started */ },
+                onClick = {
+                    navController.navigate(PagesEnum.Register.name) {
+                        popUpTo(PagesEnum.Home.name) {
+                            inclusive = false
+                        }
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF00FF00) // Neon green
+                    containerColor = primaryColor
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = 34.dp)
                     .height(48.dp)
             ) {
-                Text(text = "Get Started", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "Get Started",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = customFont
+                )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Already have an account? Sign in",
-                fontSize = 14.sp,
-                color = Color.White,
-                textAlign = TextAlign.Center, // Centers text
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { /* Handle Sign In */ }
-            )
+
+            // Row for already have an account
+            Row(Modifier.padding(top = 20.dp)) {
+                Text(
+                    text = stringResource(id = R.string.already_have_an_account_text),
+                    fontWeight = FontWeight.Light,
+                    color = Color.White,
+                    fontFamily = customFont
+                )
+
+                // Sign in link
+                Text(
+                    text = stringResource(id = R.string.sign_in_text),
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    fontFamily = customFont,
+                    textDecoration = TextDecoration.Underline,
+                    modifier = Modifier.clickable {
+                        navController.navigate(PagesEnum.Login.name) {
+                            popUpTo(PagesEnum.Home.name) {
+                                inclusive = false
+                            }
+                        }
+                    }
+                )
+            }
         }
     }
 }
@@ -109,5 +139,8 @@ fun BriefView(
 @Composable
 fun PreBriefView() {
     val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
-    BriefView(authenticationViewModel = mockViewModel, navController = rememberNavController())
+    BriefView(
+        authenticationViewModel = mockViewModel,
+        navController = rememberNavController()
+    )
 }

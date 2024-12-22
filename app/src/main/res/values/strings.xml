@@ -5,6 +5,10 @@
     <string name="emailText">Email</string>
     <string name="getStarted">Get Started</string>
     <string name="submit">Submit</string>
-
-
+    <string name="briefHeader">It’s not just running. It’s building a better you.</string>
+    <string name="briefSubHeader">Track your progress, challenge your limits, and celebrate every milestone along the way.</string>
+    <string name="already_have_an_account_text">"Already have an account? "</string>
+    <string name="sign_in_text">Sign In</string>
+    <string name="don_t_have_an_account_yet_text">"Don't have an account yet? "</string>
+    <string name="sign_up_text">Sign Up</string>
 </resources>

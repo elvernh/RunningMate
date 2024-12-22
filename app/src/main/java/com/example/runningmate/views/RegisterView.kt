@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -25,9 +27,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,7 +53,11 @@ fun RegisterView(
 ){
     val backgroundColor = Color(0xFF1E1E1E)
     val focusManager = LocalFocusManager.current
+    val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
+
     Column(modifier = Modifier.fillMaxSize().background(backgroundColor).padding(vertical = 78.dp, horizontal = 32.dp)) {
+
+        // Back Button
         Row(Modifier.fillMaxWidth().clickable(
             onClick = {
                 navController.navigate(PagesEnum.Welcome.name){
@@ -61,26 +70,32 @@ fun RegisterView(
             Text(
                 text = "Back",
                 color = Color.White,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                fontFamily = customFont // Applying custom font
             )
         }
+
         Spacer(Modifier.height(182.dp))
-        Column{
-            Row(Modifier.fillMaxWidth()){
+
+        // Content section
+        Column {
+            Row(Modifier.fillMaxWidth()) {
                 Text(
                     text = "Join Us Today",
                     color = Color.White,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 25.sp
+                    fontSize = 25.sp,
+                    fontFamily = customFont // Applying custom font
                 )
             }
+
             Spacer(Modifier.height(30.dp))
-            Row(Modifier.fillMaxWidth()){
+
+            // Username field
+            Row(Modifier.fillMaxWidth()) {
                 AuthenticationOutlinedTextField(
                     inputValue = authenticationViewModel.usernameInput,
-                    onInputValueChange = {
-                        authenticationViewModel.changeUsernameInput(it)
-                    },
+                    onInputValueChange = { authenticationViewModel.changeUsernameInput(it) },
                     inputLabel = stringResource(id = R.string.usernameText),
                     inputPlaceholder = stringResource(id = R.string.usernameText),
                     leadingIconSrc = painterResource(id = R.drawable.person),
@@ -89,20 +104,17 @@ fun RegisterView(
                         imeAction = ImeAction.Next
                     ),
                     onKeyboardNext = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Down)
-                        }
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
                     ),
                     Modifier.fillMaxWidth()
                 )
-
             }
-            Row(Modifier.fillMaxWidth()){
+
+            // Email field
+            Row(Modifier.fillMaxWidth()) {
                 AuthenticationOutlinedTextField(
                     inputValue = authenticationViewModel.emailInput,
-                    onInputValueChange = {
-                        authenticationViewModel.changeEmailInput(it)
-                    },
+                    onInputValueChange = { authenticationViewModel.changeEmailInput(it) },
                     inputLabel = stringResource(id = R.string.emailText),
                     inputPlaceholder = stringResource(id = R.string.emailText),
                     leadingIconSrc = painterResource(id = R.drawable.email),
@@ -111,19 +123,17 @@ fun RegisterView(
                         imeAction = ImeAction.Next
                     ),
                     onKeyboardNext = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Down)
-                        }
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
                     ),
                     Modifier.fillMaxWidth()
                 )
             }
-            Row(Modifier.fillMaxWidth()){
+
+            // Password field
+            Row(Modifier.fillMaxWidth()) {
                 AuthenticationOutlinedTextField(
                     inputValue = authenticationViewModel.passwordInput,
-                    onInputValueChange = {
-                        authenticationViewModel.changePasswordInput(it)
-                    },
+                    onInputValueChange = { authenticationViewModel.changePasswordInput(it) },
                     inputLabel = stringResource(id = R.string.passwordText),
                     inputPlaceholder = stringResource(id = R.string.passwordText),
                     leadingIconSrc = painterResource(id = R.drawable.outline_lock_24),
@@ -132,19 +142,66 @@ fun RegisterView(
                         imeAction = ImeAction.Next
                     ),
                     onKeyboardNext = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Down)
-                        }
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
                     ),
                     Modifier.fillMaxWidth()
                 )
             }
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 32.dp)){
+
+            // Submit button
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 32.dp)) {
                 AuthenticationSubmitButton(
                     buttonText = stringResource(id = R.string.submit),
                     onButtonClick = {
                         authenticationViewModel.registerUser(navController)
                     },
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 40.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Add a divider at the start
+                HorizontalDivider(
+                    color = Color.White,
+                    thickness = 1.dp,
+                    modifier = Modifier.weight(1f).padding(end = 5.dp)
+                )
+
+                // Add the text in the center
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Spacer(Modifier.height(15.dp))
+                    Text(
+                        text = stringResource(id = R.string.already_have_an_account_text),
+                        color = Color.White,
+                        fontFamily = customFont,
+                        fontSize = 10.sp,
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp)) // Add spacing between the texts
+
+                    Text(
+                        text = stringResource(id = R.string.sign_in_text),
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        fontFamily = customFont,
+                        textDecoration = TextDecoration.Underline,
+                        modifier = Modifier.clickable {
+                            navController.navigate(PagesEnum.Login.name) {
+                                popUpTo(PagesEnum.Home.name) { inclusive = false }
+                            }
+                        }
+                    )
+                }
+
+                // Add a divider at the end
+                HorizontalDivider(
+                    color = Color.White,
+                    thickness = 1.dp,
+                    modifier = Modifier.weight(1f).padding(start = 5.dp)
                 )
             }
         }

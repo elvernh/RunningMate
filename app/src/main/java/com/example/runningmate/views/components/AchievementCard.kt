@@ -41,6 +41,7 @@ fun AchievementCard(
     state: AchievementState,
     modifier: Modifier = Modifier
 ) {
+    val primaryColor = Color(0xFF)
     Box(
         modifier = modifier
             .background(Color(0xFF1E1E1E), shape = RoundedCornerShape(8.dp))

@@ -2,6 +2,7 @@ package com.example.runningmate.views
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,7 +15,13 @@ fun RunningMateApp(
     navController: NavHostController = rememberNavController(),
     authenticationViewModel: AuthenticationViewModel = viewModel(factory = AuthenticationViewModel.Factory)
 ){
-    NavHost(navController = navController, startDestination = PagesEnum.Register.name){
+    NavHost(navController = navController, startDestination = PagesEnum.Welcome.name){
+        composable(route = PagesEnum.Welcome.name){
+            BriefView(
+                authenticationViewModel = authenticationViewModel,
+                navController = navController
+            )
+        }
         composable(route = PagesEnum.Register.name){
             RegisterView(
                 authenticationViewModel = authenticationViewModel,
