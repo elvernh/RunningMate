@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,28 +42,31 @@ fun Homepage(
     val greetingColor = Color(0xFF8F8F8F)
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
 
-    Column(Modifier.fillMaxSize().background(backgroundColor).padding(horizontal = 30.dp, vertical = 62.dp)) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Column {
-                Text(
-                    text = greetingText,
-                    color = greetingColor,
-                    fontFamily = customFont,
-                    fontSize = 14.sp
-                )
-                Text(
-                    text = stringResource(id = R.string.ready_to_run),
-                    color = Color.White,
-                    fontFamily = customFont,
-                    fontSize = 18.sp
-                )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-                Icon(painter = painterResource(id = R.drawable.search), contentDescription = null, tint = Color.White, modifier = Modifier.size(28.dp))
-                Icon(painter = painterResource(id = R.drawable.bell), contentDescription = null, tint = Color.White, modifier = Modifier.size(28.dp))
-                Icon(painter = painterResource(id = R.drawable.profile), contentDescription = null, tint = Color.White, modifier = Modifier.size(28.dp))
+    LazyColumn(Modifier.fillMaxSize().background(backgroundColor).padding(horizontal = 30.dp, vertical = 62.dp)) {
+        item {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Column {
+                    Text(
+                        text = greetingText,
+                        color = greetingColor,
+                        fontFamily = customFont,
+                        fontSize = 14.sp
+                    )
+                    Text(
+                        text = stringResource(id = R.string.ready_to_run),
+                        color = Color.White,
+                        fontFamily = customFont,
+                        fontSize = 18.sp
+                    )
+                }
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                    Icon(painter = painterResource(id = R.drawable.search), contentDescription = null, tint = Color.White, modifier = Modifier.size(28.dp))
+                    Icon(painter = painterResource(id = R.drawable.bell), contentDescription = null, tint = Color.White, modifier = Modifier.size(28.dp))
+                    Icon(painter = painterResource(id = R.drawable.profile), contentDescription = null, tint = Color.White, modifier = Modifier.size(28.dp))
+                }
             }
         }
+
     }
 }
 
