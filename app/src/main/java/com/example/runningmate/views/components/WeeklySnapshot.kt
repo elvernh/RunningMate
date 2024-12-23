@@ -30,6 +30,8 @@ fun WeeklySnapshot(){
     val containerColor = Color(0xFF1E1E1E)
     val childColor = Color(0xFF8F8F8F)
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
+    val barValues = listOf(8000, 4000, 8000, 8000, 2000, 4000, 0) // Values for each day
+    val maxBarValue = 8000
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,7 +52,7 @@ fun WeeklySnapshot(){
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "Steps Overview / day",
+                    text = "Steps Overview / Day",
                     fontFamily = customFont,
                     color = childColor,
                     fontSize = 10.sp
@@ -63,8 +65,14 @@ fun WeeklySnapshot(){
                 modifier = Modifier.size(32.dp)
             )
         }
-        Row {
-            // Isi chart
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom
+        ) {
+
         }
     }
 
