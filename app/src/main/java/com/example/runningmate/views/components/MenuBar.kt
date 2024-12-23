@@ -44,7 +44,7 @@ fun MenuBar(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                 Icon(painter = painterResource(id = R.drawable.home),
-                    contentDescription = null, tint = Color.White)
+                    contentDescription = null, tint = Color.White, modifier = Modifier.padding(bottom = 5.dp))
                 Text(
                     text = "Home",
                     color = Color.White,
@@ -55,7 +55,7 @@ fun MenuBar(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                 Icon(painter = painterResource(id = R.drawable.record),
-                    contentDescription = null, tint = Color.White)
+                    contentDescription = null, tint = Color.White, modifier = Modifier.padding(bottom = 5.dp))
                 Text(
                     text = "Record",
                     color = Color.White,
@@ -66,7 +66,7 @@ fun MenuBar(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                 Icon(painter = painterResource(id = R.drawable.users),
-                    contentDescription = null, tint = Color.White)
+                    contentDescription = null, tint = Color.White, modifier = Modifier.padding(bottom = 5.dp))
                 Text(
                     text = "Friends",
                     color = Color.White,
@@ -77,7 +77,7 @@ fun MenuBar(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                 Icon(painter = painterResource(id = R.drawable.trello),
-                    contentDescription = null, tint = Color.White)
+                    contentDescription = null, tint = Color.White, modifier = Modifier.padding(bottom = 5.dp))
                 Text(
                     text = "Profile",
                     color = Color.White,
