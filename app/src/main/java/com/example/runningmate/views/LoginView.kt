@@ -45,6 +45,7 @@ import com.example.runningmate.repositories.FakeAuthenticationRepository
 import com.example.runningmate.viewmodel.AuthenticationViewModel
 import com.example.runningmate.views.components.AuthenticationOutlinedTextField
 import com.example.runningmate.views.components.AuthenticationSubmitButton
+import com.example.runningmate.views.components.BackButton
 
 @Composable
 fun LoginView(
@@ -58,22 +59,7 @@ fun LoginView(
     Column(modifier = Modifier.fillMaxSize().background(backgroundColor).padding(vertical = 78.dp, horizontal = 32.dp)) {
 
         // Back Button
-        Row(Modifier.fillMaxWidth().clickable(
-            onClick = {
-                navController.navigate(PagesEnum.Welcome.name){
-                    popUpTo(PagesEnum.Register.name) { inclusive = true }
-                }
-            }
-        ),
-            verticalAlignment = Alignment.CenterVertically) {
-            Icon(painter = painterResource(id = R.drawable.arrow_back), contentDescription = "", tint = Color.White)
-            Text(
-                text = "Back",
-                color = Color.White,
-                fontWeight = FontWeight.Medium,
-                fontFamily = customFont,// Applying custom font,
-            )
-        }
+        BackButton(navController)
 
         Spacer(Modifier.height(182.dp))
 

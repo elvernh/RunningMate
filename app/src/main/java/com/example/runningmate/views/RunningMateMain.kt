@@ -28,5 +28,11 @@ fun RunningMateApp(
                 navController = navController
             )
         }
+        composable(route = PagesEnum.Login.name){
+            LoginView(
+                authenticationViewModel = authenticationViewModel,
+                navController = navController
+            )
+        }
     }
 }
