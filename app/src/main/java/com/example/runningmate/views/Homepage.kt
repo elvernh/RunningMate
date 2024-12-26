@@ -41,7 +41,7 @@ fun Homepage(
     navController: NavHostController
 ) {
     val backgroundColor = Color(0xFF171717)
-    val greetingText = getCurrentGreeting()
+    val greetingText = getCurrentGreeting(authenticationViewModel)
     val greetingColor = Color(0xFF8F8F8F)
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
 
@@ -123,14 +123,16 @@ fun Homepage(
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun getCurrentGreeting(): String {
+fun getCurrentGreeting(authenticationViewModel: AuthenticationViewModel): String {
+    val userName = authenticationViewModel.userName.value
     val currentHour = LocalTime.now().hour
-    return when (currentHour) {
-        in 5..11 -> "Good Morning, currentUser"
-        in 12..17 -> "Good Afternoon, currentUser"
-        in 18..21 -> "Good Evening, currentUser"
-        else -> "Good Night, currentUser"
+    val greeting = when (currentHour) {
+        in 5..11 -> "Good Morning"
+        in 12..17 -> "Good Afternoon"
+        in 18..21 -> "Good Evening"
+        else -> "Good Night"
     }
+    return "$greeting, $userName"
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

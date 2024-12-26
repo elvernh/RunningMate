@@ -38,6 +38,8 @@ class AuthenticationViewModel(
 
     var dataStatus: AuthenticationStatusUIState by mutableStateOf(AuthenticationStatusUIState.Start)
         private set
+    
+    val userName = mutableStateOf("")
 
     fun changeUsernameInput(usernameInput: String) {
         this.usernameInput = usernameInput
@@ -112,6 +114,8 @@ class AuthenticationViewModel(
                     override fun onResponse(call: Call<UserResponse>, res: Response<UserResponse>){
                         if(res.isSuccessful){
                             Log.d("response-data", "RESPONSE DATA: ${res.body()}")
+
+                            userName.value = res.body()?.data?.username?: "Guest"
 
                             dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
 
