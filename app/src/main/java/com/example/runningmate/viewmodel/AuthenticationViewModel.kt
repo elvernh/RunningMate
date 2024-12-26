@@ -83,7 +83,7 @@ class AuthenticationViewModel(
 
                             resetViewModel()
 
-                            navController.navigate(PagesEnum.Home.name){ //ini hrs di cari tau arti codingannya apa
+                            navController.navigate(PagesEnum.Welcome.name){ //ini hrs di cari tau arti codingannya apa
                                 popUpTo(PagesEnum.Register.name){
                                     inclusive = true
                                 }
