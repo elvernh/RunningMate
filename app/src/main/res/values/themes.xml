@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.RunningMate" parent="android:Theme.Material.Light.NoActionBar">
+    <!-- Tema utama aplikasi -->
+    <style name="Theme.RunningMate" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#6200EE</item>
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#03DAC6</item>
+        <item name="colorOnSecondary">#000000</item>
+        <item name="android:colorBackground">#1E1E1E</item>
+        <item name="colorOnBackground">#FFFFFF</item>
+        <item name="colorSurface">#121212</item>
+        <item name="colorOnSurface">#FFFFFF</item>
     </style>
 </resources>
