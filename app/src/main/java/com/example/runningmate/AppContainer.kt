@@ -4,7 +4,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.runningmate.repositories.AuthenticationRepository
 import com.example.runningmate.repositories.NetworkAuthenticationRepository
+import com.example.runningmate.repositories.NetworkUserRepository
+import com.example.runningmate.repositories.UserRepository
 import com.example.runningmate.services.AuthenticationAPIService
+import com.example.todolistapp.services.UserAPIService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,10 +15,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 interface AppContainer {
     val authenticationRepository: AuthenticationRepository
+    val userRepository: UserRepository
 }
 
 class DefaultAppContainer(
-    private val userDataStore: DataStore<Preferences>
+    private val userDataStore: DataStore<Preferences>,
 ): AppContainer{
     private val APIbaseURL = "http://192.168.1.15:3000/" //isi pake IP address wifi //address hotspot elvern
 
@@ -34,7 +38,18 @@ class DefaultAppContainer(
 
         return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).client(client.build()).baseUrl(APIbaseURL).build()
     }
+
+    private val userRetrofitService: UserAPIService by lazy {
+        val retrofit = initRetrofit()
+
+        retrofit.create(UserAPIService::class.java)
+    }
+
     override val authenticationRepository: AuthenticationRepository by lazy {
         NetworkAuthenticationRepository(authenticationRetrofitService)
+    }
+
+    override val userRepository: UserRepository by lazy {
+        NetworkUserRepository(userDataStore, userRetrofitService)
     }
 }

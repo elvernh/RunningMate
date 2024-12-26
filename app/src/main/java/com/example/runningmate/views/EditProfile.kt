@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,12 +39,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.runningmate.R
 import com.example.runningmate.repositories.FakeAuthenticationRepository
 import com.example.runningmate.viewmodel.AuthenticationViewModel
+import com.example.runningmate.viewmodel.HomeViewModel
 
 
 @Composable
 fun EditProfile(
     authenticationViewModel: AuthenticationViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    homeViewModel: HomeViewModel,
+    token: String
 ) {
     val backgroundColor = Color(0xFF171717)
     val grayColor = Color(0xFF8F8F8F)
@@ -69,7 +73,7 @@ fun EditProfile(
                     contentDescription = "",
                     tint = Color.White, modifier = Modifier.clickable(
                         onClick = {
-
+                            navController.popBackStack()
                         }
                     )
                 )
@@ -89,7 +93,7 @@ fun EditProfile(
                         .size(32.dp)
                         .clickable(
                             onClick = {
-
+                                homeViewModel.logoutUser(token, navController)
                             }
                         ))
             }
@@ -128,12 +132,12 @@ fun EditProfile(
             }
         }
         item {
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp)
+                    .padding(vertical = 16.dp),
+                thickness = 1.dp,
+                color = Color.Gray
             )
             ProfileItem(label = "Name", value = "RandomUser23")
             ProfileItem(label = "Email", value = "RandomUser23@gmail.com")
@@ -214,9 +218,9 @@ fun ProfileItem(label: String, value: String) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun EditProfilePreview() {
-    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
-    EditProfile(authenticationViewModel = mockViewModel, navController = rememberNavController())
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun EditProfilePreview() {
+//    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
+//    EditProfile(authenticationViewModel = mockViewModel, navController = rememberNavController())
+//}

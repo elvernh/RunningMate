@@ -21,13 +21,16 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.runningmate.R
+import com.example.runningmate.enums.PagesEnum
 
 @Composable
 fun MenuBar(
     selectedMenu: String, // Add this parameter to track the selected menu
     onMenuClick: (String) -> Unit, // Callback for handling menu item clicks
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier, // Set a default modifier to avoid errors
+    navController: NavHostController // Add NavHostController for navigation
 ) {
     val ColorBasic = Color(0xFF1E1E1E)
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
@@ -42,7 +45,7 @@ fun MenuBar(
             Modifier
                 .fillMaxWidth()
                 .background(ColorBasic)
-                .padding(start = 35.dp,end = 35.dp, top = 20.dp, bottom = 50.dp),
+                .padding(start = 35.dp, end = 35.dp, top = 20.dp, bottom = 50.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             // Menu Items
@@ -53,7 +56,11 @@ fun MenuBar(
                 selectedColor = selectedColor,
                 defaultColor = defaultColor,
                 customFont = customFont,
-                onClick = { onMenuClick("Home") }
+                onClick = {
+                    navController.navigate(PagesEnum.Home.name) {
+                        popUpTo(PagesEnum.Home.name) { inclusive = false }
+                    }
+                }
             )
 
             MenuItem(
@@ -63,7 +70,11 @@ fun MenuBar(
                 selectedColor = selectedColor,
                 defaultColor = defaultColor,
                 customFont = customFont,
-                onClick = { onMenuClick("Record") }
+                onClick = {
+                    navController.navigate(PagesEnum.Register.name) {
+                        popUpTo(PagesEnum.Register.name) { inclusive = false }
+                    }
+                }
             )
 
             MenuItem(
@@ -73,7 +84,11 @@ fun MenuBar(
                 selectedColor = selectedColor,
                 defaultColor = defaultColor,
                 customFont = customFont,
-                onClick = { onMenuClick("Friends") }
+                onClick = {
+                    navController.navigate(PagesEnum.FriendList.name) {
+                        popUpTo(PagesEnum.FriendList.name) { inclusive = false }
+                    }
+                }
             )
 
             MenuItem(
@@ -83,7 +98,11 @@ fun MenuBar(
                 selectedColor = selectedColor,
                 defaultColor = defaultColor,
                 customFont = customFont,
-                onClick = { onMenuClick("Profile") }
+                onClick = {
+                    navController.navigate(PagesEnum.ProfilePage.name) {
+                        popUpTo(PagesEnum.ProfilePage.name) { inclusive = false }
+                    }
+                }
             )
         }
 
@@ -107,7 +126,7 @@ fun MenuItem(
     selectedColor: Color,
     defaultColor: Color,
     customFont: FontFamily,
-    onClick: () -> Unit
+    onClick: () -> Unit // Removed NavHostController parameter as it's passed in the parent
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -132,8 +151,13 @@ fun MenuItem(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun showMenuBar() {
+    // Mock Preview
+    // You would replace `rememberNavController()` with your real `NavHostController`
+    val navController = androidx.navigation.compose.rememberNavController()
     MenuBar(
         selectedMenu = "Home", // Set the initial selected menu
-        onMenuClick = { menu -> println("Clicked on $menu") }
+        onMenuClick = {}, // Pass an empty function for preview
+        navController = navController
     )
 }
+

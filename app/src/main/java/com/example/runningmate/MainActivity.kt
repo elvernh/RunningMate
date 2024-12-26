@@ -1,9 +1,11 @@
 package com.example.runningmate
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -16,23 +18,15 @@ import com.example.runningmate.ui.theme.RunningMateTheme
 import com.example.runningmate.views.RunningMateApp
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        installSplashScreen()
+//        installSplashScreen()
         setContent {
             RunningMateTheme {
                 RunningMateApp()
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RunningMateTheme {
-        RunningMateApp()
     }
 }

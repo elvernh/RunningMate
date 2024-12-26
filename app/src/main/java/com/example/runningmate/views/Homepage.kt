@@ -3,8 +3,8 @@ package com.example.runningmate.views
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.runningmate.R
+import com.example.runningmate.enums.PagesEnum
 import com.example.runningmate.repositories.FakeAuthenticationRepository
 import com.example.runningmate.viewmodel.AuthenticationViewModel
 import com.example.runningmate.views.components.MenuBar
@@ -38,7 +39,7 @@ import java.time.LocalTime
 @Composable
 fun Homepage(
     authenticationViewModel: AuthenticationViewModel,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     val backgroundColor = Color(0xFF171717)
     val greetingText = getCurrentGreeting(authenticationViewModel)
@@ -96,7 +97,11 @@ fun Homepage(
                             painter = painterResource(id = R.drawable.profile),
                             contentDescription = null,
                             tint = Color.White,
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(28.dp).clickable{
+                                navController.navigate(PagesEnum.EditProfile.name) {
+                                    popUpTo(PagesEnum.EditProfile.name) { inclusive = false }
+                                }
+                            }
                         )
                     }
                 }
@@ -116,7 +121,8 @@ fun Homepage(
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth() // Ensures MenuBar spans the full width
+            modifier = Modifier.fillMaxWidth(), // Ensures MenuBar spans the full width
+            navController = navController // Add navController here
         )
     }
 }

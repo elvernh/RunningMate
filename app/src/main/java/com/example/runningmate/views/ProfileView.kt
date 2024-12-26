@@ -64,7 +64,7 @@ fun ProfileView(
                     contentDescription = "",
                     tint = Color.White, modifier = Modifier.clickable(
                         onClick = {
-
+                            navController.popBackStack()
                         }
                     )
                 )

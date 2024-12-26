@@ -4,5 +4,9 @@ enum class PagesEnum {
     Welcome,
     Login,
     Register,
-    Home
+    Home,
+    EditProfile,
+    ProfilePage,
+    FriendList,
+    Record
 }
