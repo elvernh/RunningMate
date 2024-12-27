@@ -67,9 +67,8 @@ fun BriefView(
                 fontSize = 28.sp,
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                fontFamily = customFont
+                fontFamily = customFont,
             )
-
             // Sub header text
             Text(
                 text = stringResource(id = R.string.briefSubHeader),
@@ -78,7 +77,7 @@ fun BriefView(
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 fontFamily = customFont,
-                modifier = Modifier.padding(top = 5.dp)
+                modifier = Modifier.padding(top = 8.dp)
             )
 
             // Get Started Button

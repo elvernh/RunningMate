@@ -77,7 +77,7 @@ class AuthenticationViewModel(
             dataStatus = AuthenticationStatusUIState.Loading
 
             try {
-                val call = authenticationRepository.register(emailInput, usernameInput, passwordInput)
+                val call = authenticationRepository.register(usernameInput, emailInput, passwordInput)
                 call.enqueue(object: Callback<UserResponse>{
                     override fun onResponse(call: Call<UserResponse>, res: Response<UserResponse>){
                         if(res.isSuccessful){
@@ -118,8 +118,8 @@ class AuthenticationViewModel(
                             Log.d("response-data", "RESPONSE DATA: ${res.body()}")
 
                             userName.value = res.body()?.data?.username?: "Guest"
-                            email.value = res.body()?.data?.email?: "Guest"
-                            password.value = res.body()?.data?.password?: "Guest"
+//                            email.value = res.body()?.data?.email?: "Guest"
+//                            password.value = res.body()?.data?.password?: "Guest"
 
                             dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
 
