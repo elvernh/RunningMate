@@ -40,6 +40,8 @@ class AuthenticationViewModel(
         private set
     
     val userName = mutableStateOf("")
+    val email = mutableStateOf("")
+    val password = mutableStateOf("")
 
     fun changeUsernameInput(usernameInput: String) {
         this.usernameInput = usernameInput
@@ -116,13 +118,15 @@ class AuthenticationViewModel(
                             Log.d("response-data", "RESPONSE DATA: ${res.body()}")
 
                             userName.value = res.body()?.data?.username?: "Guest"
+                            email.value = res.body()?.data?.email?: "Guest"
+                            password.value = res.body()?.data?.password?: "Guest"
 
                             dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
 
                             resetViewModel()
 
                             navController.navigate(PagesEnum.Home.name){
-                                popUpTo(PagesEnum.Login.name){
+                                popUpTo(PagesEnum.Home.name){
                                     inclusive = true
                                 }
                             }

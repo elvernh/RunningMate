@@ -62,6 +62,7 @@ class HomeViewModel(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = ""
     )
+
     fun logoutUser(token: String, navController: NavHostController) {
         viewModelScope.launch {
             logoutStatus = StringDataStatusUIState.Loading

@@ -53,9 +53,9 @@ fun EditProfile(
     homeViewModel: HomeViewModel,
     token: String
 ) {
-    val username = homeViewModel.username.collectAsState()
-    val email = homeViewModel.email.collectAsState()
-    val password = homeViewModel.password.collectAsState()
+    val username = authenticationViewModel.userName.value
+    val email = authenticationViewModel.email.value
+    val password = authenticationViewModel.password.value
     val backgroundColor = Color(0xFF171717)
     val grayColor = Color(0xFF8F8F8F)
     val darkRed = Color(0xFFa40a0a)
@@ -146,9 +146,9 @@ fun EditProfile(
                 thickness = 1.dp,
                 color = Color.Gray
             )
-            ProfileItem(label = "Name", value = username.value)
-            ProfileItem(label = "Email", value = email.value)
-            ProfileItem(label = "Password", value = password.value)
+            ProfileItem(label = "Name", value = username)
+            ProfileItem(label = "Email", value = email)
+            ProfileItem(label = "Password", value = password)
         }
         item {
             Row(

@@ -12,6 +12,8 @@ class FakeAuthenticationRepository : AuthenticationRepository {
         val fakeUserResponse = UserResponse(
             data = UserModel(
                 username = username,
+                email = "",
+                password = "",
                 token = "fake_register_token"
             )
         )
@@ -23,6 +25,8 @@ class FakeAuthenticationRepository : AuthenticationRepository {
         val fakeUserResponse = UserResponse(
             data = UserModel(
                 username = "FakeUser",
+                email = "",
+                password = "",
                 token = "fake_login_token"
             )
         )
