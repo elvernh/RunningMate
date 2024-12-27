@@ -28,20 +28,22 @@ fun AddFriendButton() {
     val neon = Color(0xFF9CFF00)
 
     Button(
-        onClick = { isUsed = true },
+        onClick = {
+            // Toggle the isUsed state
+            isUsed = !isUsed
+        },
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isUsed) grayColor else neon,
             contentColor = Color.White
         ),
         shape = RoundedCornerShape(10.dp),
-        enabled = !isUsed,
         modifier = Modifier
             .padding(16.dp)
             .height(48.dp)
             .width(200.dp)
     ) {
         Text(
-            text = if (isUsed) "Added" else "Add As Friend",
+            text = if (isUsed) "Requested" else "Add As Friend",
             color = if (isUsed) Color.White else Color.Black,
             fontFamily = customFont
         )

@@ -67,16 +67,15 @@ class HomeViewModel(
         viewModelScope.launch {
             logoutStatus = StringDataStatusUIState.Loading
 
-            Log.d("token-logout", "LOGOUT TOKEN: ${token}")
+            Log.d("token-logout", "LOGOUT TOKEN: $token")
 
             try {
                 val call = userRepository.logout(token)
 
-                call.enqueue(object: Callback<GeneralResponseModel> {
+                call.enqueue(object : Callback<GeneralResponseModel> {
                     override fun onResponse(call: Call<GeneralResponseModel>, res: Response<GeneralResponseModel>) {
                         if (res.isSuccessful) {
-                            Log.d("a", "aaa")
-                            logoutStatus = StringDataStatusUIState.Success(data = res.body()!!.data)
+                            logoutStatus = StringDataStatusUIState.Success(data = res.body()?.data ?: "Logout successful")
 
                             saveUsernameTokenEmailPassword("Unknown", "Unknown", "Unknown", "Unknown")
 
@@ -86,27 +85,31 @@ class HomeViewModel(
                                 }
                             }
                         } else {
-                            val errorMessage = Gson().fromJson(
-                                res.errorBody()!!.charStream(),
-                                ErrorModel::class.java
-                            )
+                            // Parse the error response safely
+                            val errorBody = res.errorBody()?.charStream()?.let {
+                                Gson().fromJson(it, ErrorModel::class.java)
+                            }
+                            val errorMessage = errorBody?.errors ?: "Unknown error occurred"
 
-                            logoutStatus = StringDataStatusUIState.Failed(errorMessage.errors)
-                            // set error message toast
+                            logoutStatus = StringDataStatusUIState.Failed(errorMessage)
+                            Log.d("logout-error", "Error message: $errorMessage")
                         }
                     }
 
                     override fun onFailure(call: Call<GeneralResponseModel>, t: Throwable) {
-                        logoutStatus = StringDataStatusUIState.Failed(t.localizedMessage)
-                        Log.d("logout-failure", t.localizedMessage)
+                        val errorMessage = t.localizedMessage ?: "Network error occurred"
+                        logoutStatus = StringDataStatusUIState.Failed(errorMessage)
+                        Log.d("logout-failure", errorMessage)
                     }
                 })
             } catch (error: IOException) {
-                logoutStatus = StringDataStatusUIState.Failed(error.localizedMessage)
-                Log.d("logout-error", error.localizedMessage)
+                val errorMessage = error.localizedMessage ?: "Unexpected error occurred"
+                logoutStatus = StringDataStatusUIState.Failed(errorMessage)
+                Log.d("logout-error", errorMessage)
             }
         }
     }
+
     fun saveUsernameTokenEmailPassword(token: String, username: String, email: String, password: String) {
         viewModelScope.launch {
             userRepository.saveUserToken(token)

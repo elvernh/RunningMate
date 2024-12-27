@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.runningmate.R
 import com.example.runningmate.repositories.FakeAuthenticationRepository
 import com.example.runningmate.viewmodel.AuthenticationViewModel
+import com.example.runningmate.views.components.AddFriendButton
 
 @Composable
 fun FriendDetail(
@@ -130,7 +131,7 @@ fun FriendDetail(
             }
         }
         item {
-
+            AddFriendButton()
         }
     }
 }

@@ -37,129 +37,146 @@ import com.example.runningmate.R
 import com.example.runningmate.enums.PagesEnum
 import com.example.runningmate.repositories.FakeAuthenticationRepository
 import com.example.runningmate.viewmodel.AuthenticationViewModel
+import com.example.runningmate.views.components.MenuBar
 
 @Composable
 fun ProfileView(
     authenticationViewModel: AuthenticationViewModel,
     navController: NavHostController
 ) {
+    val username = authenticationViewModel.userName.value
     val backgroundColor = Color(0xFF171717)
     val grayColor = Color(0xFF8F8F8F)
     val neon = Color(0xFF9CFF00)
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
-    LazyColumn(
-        Modifier
-            .fillMaxSize()
-            .background(backgroundColor)
-            .padding(horizontal = 30.dp, vertical = 62.dp)
-    ) {
-        item {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 40.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+    Column(modifier = Modifier.fillMaxSize()
+        .background(backgroundColor)) {
+        LazyColumn(
+            Modifier.weight(1f)
+                .padding(horizontal = 30.dp, vertical = 62.dp)
+        ) {
+            item {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 40.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
 
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_back),
-                    contentDescription = "",
-                    tint = Color.White, modifier = Modifier.clickable(
-                        onClick = {
-                            navController.popBackStack()
-                        }
-                    )
-                )
-
-                Text(
-                    text = "Profile",
-                    fontFamily = customFont,
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Icon(painter = painterResource(id = R.drawable.log), contentDescription = null, tint = Color.White, modifier = Modifier
-                    .size(32.dp)
-                    .clickable(
-                        onClick = {
-
-                        }
-                    ))
-
-
-            }
-        }
-        item {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(5.dp)) {
                     Icon(
-                        painter = painterResource(id = R.drawable.profile), contentDescription = null, tint = grayColor, modifier = Modifier.size(100.dp)
+                        painter = painterResource(id = R.drawable.arrow_back),
+                        contentDescription = "",
+                        tint = Color.White, modifier = Modifier.clickable(
+                            onClick = {
+                                navController.popBackStack()
+                            }
+                        )
                     )
-                    Text(
-                        text = "25/100 xp",
-                        color = grayColor,
-                        fontFamily = customFont
-                    )
-                    Text(
-                        text = "RandomUser23",
-                        color = Color.White,
-                        fontFamily = customFont,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "1",
-                                color = neon,
-                                fontSize = 20.sp,
-                                fontFamily = customFont
-                            )
-                            Text(
-                                text = "Level",
-                                color = grayColor,
-                                fontSize = 12.sp,
-                                fontFamily = customFont
-                            )
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "5",
-                                color = neon,
-                                fontSize = 20.sp,
-                                fontFamily = customFont
-                            )
-                            Text(
-                                text = "Friends",
-                                color = grayColor,
-                                fontSize = 12.sp,
-                                fontFamily = customFont
-                            )
-                        }
-                    }
-                    Row {
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(containerColor = neon),
-                            modifier = Modifier
-                                .width(190.dp)
-                                .height(50.dp).clip(RoundedCornerShape(12.dp)),
-                            shape = RectangleShape,
 
-                        ) {
-                            Text(
-                                text = "Edit Profile",
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = customFont,
-                                color = backgroundColor,
-                            )
+                    Text(
+                        text = "Profile",
+                        fontFamily = customFont,
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Icon(painter = painterResource(id = R.drawable.log), contentDescription = null, tint = Color.White, modifier = Modifier
+                        .size(32.dp)
+                        .clickable(
+                            onClick = {
+
+                            }
+                        ))
+
+
+                }
+            }
+            item {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.profile), contentDescription = null, tint = grayColor, modifier = Modifier.size(100.dp)
+                        )
+                        Text(
+                            text = "25/100 xp",
+                            color = grayColor,
+                            fontFamily = customFont
+                        )
+                        Text(
+                            text = username,
+                            color = Color.White,
+                            fontFamily = customFont,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = "1",
+                                    color = neon,
+                                    fontSize = 20.sp,
+                                    fontFamily = customFont
+                                )
+                                Text(
+                                    text = "Level",
+                                    color = grayColor,
+                                    fontSize = 12.sp,
+                                    fontFamily = customFont
+                                )
+                            }
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = "5",
+                                    color = neon,
+                                    fontSize = 20.sp,
+                                    fontFamily = customFont
+                                )
+                                Text(
+                                    text = "Friends",
+                                    color = grayColor,
+                                    fontSize = 12.sp,
+                                    fontFamily = customFont
+                                )
+                            }
+                        }
+                        Row {
+                            Button(
+                                onClick = {},
+                                colors = ButtonDefaults.buttonColors(containerColor = neon),
+                                modifier = Modifier
+                                    .width(190.dp)
+                                    .height(50.dp).clip(RoundedCornerShape(12.dp)),
+                                shape = RectangleShape,
+
+                                ) {
+                                Text(
+                                    text = "Edit Profile",
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = customFont,
+                                    color = backgroundColor,
+                                )
+                            }
                         }
                     }
                 }
             }
+
         }
+        MenuBar(
+            selectedMenu = "Profile", // Pass the currently selected menu
+            onMenuClick = { menu ->
+                if (menu != "Profile") { // Avoid navigating to the current screen
+                    navController.navigate(menu.lowercase()) {
+                        launchSingleTop = true // Avoid multiple instances of the same destination
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth(), // Ensures MenuBar spans the full width
+            navController = navController // Add navController here
+        )
     }
+
 }
 
 @Preview(showBackground = true, showSystemUi = true)

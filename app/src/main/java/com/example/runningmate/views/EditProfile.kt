@@ -54,12 +54,12 @@ fun EditProfile(
     token: String
 ) {
 
-    val username = homeViewModel.username.collectAsState()
-    val email = homeViewModel.email.collectAsState()
-    val password = homeViewModel.password.collectAsState()
+//    val username = homeViewModel.username.collectAsState()
+//    val email = homeViewModel.email.collectAsState()
+//    val password = homeViewModel.password.collectAsState()
 
-//    val username = authenticationViewModel.userName.value
-//    val email = authenticationViewModel.email.value
+    val username = authenticationViewModel.userName.value
+    val email = authenticationViewModel.email.value
 //    val password = authenticationViewModel.password.value
 
     val backgroundColor = Color(0xFF171717)
@@ -130,16 +130,17 @@ fun EditProfile(
                                     onClick = { }
                                 )
                         )
-                        Icon(
-                            painter = painterResource(id = R.drawable.edit),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(50.dp)
-                                .offset(18.dp)
-                                .clickable(
-                                    onClick = { }
-                                )
-                        )
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.edit),
+//                            contentDescription = null,
+//                            tint = grayColor,
+//                            modifier = Modifier
+//                                .size(50.dp)
+//                                .offset(18.dp)
+//                                .clickable(
+//                                    onClick = { }
+//                                )
+//                        )
                     }
                 }
             }
@@ -152,9 +153,9 @@ fun EditProfile(
                 thickness = 1.dp,
                 color = Color.Gray
             )
-            ProfileItem(label = "Name", value = username.value)
-            ProfileItem(label = "Email", value = email.value)
-            ProfileItem(label = "Password", value = password.value)
+            ProfileItem(label = "Name", value = username)
+            ProfileItem(label = "Email", value = email)
+//            ProfileItem(label = "Password", value = password)
         }
         item {
             Row(
@@ -184,6 +185,7 @@ fun EditProfile(
                 }
             }
         }
+
     }
 }
 
@@ -222,7 +224,8 @@ fun ProfileItem(label: String, value: String) {
                     fontSize = 12.sp,
                     fontFamily = customFont
                 ),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                maxLines = 1
             )
         }
 

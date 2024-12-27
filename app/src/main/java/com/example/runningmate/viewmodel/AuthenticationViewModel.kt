@@ -118,8 +118,8 @@ class AuthenticationViewModel(
                             Log.d("response-data", "RESPONSE DATA: ${res.body()}")
 
                             userName.value = res.body()?.data?.username?: "Guest"
-//                            email.value = res.body()?.data?.email?: "Guest"
-//                            password.value = res.body()?.data?.password?: "Guest"
+                            email.value = res.body()?.data?.email?: "Guest"
+                            password.value = res.body()?.data?.password?: "Guest"
 
                             dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
 

@@ -49,34 +49,35 @@ fun FriendlistPage(
             .padding(horizontal = 30.dp, vertical = 62.dp)
     ) {
         item {
-            Row(
+            Box(
                 Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 40.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .padding(bottom = 40.dp)
             ) {
-
+                // Back Arrow Icon (Aligned to Start)
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_back),
                     contentDescription = "",
-                    tint = Color.White, modifier = Modifier.clickable(
-                        onClick = {
+                    tint = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .clickable(onClick = {
                             navController.popBackStack()
-                        }
-                    )
+                        })
                 )
 
+                // Friends Text (Centered)
                 Text(
                     text = "Friends",
                     fontFamily = customFont,
                     color = Color.White,
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center)
                 )
-
             }
         }
+
 
 
     }

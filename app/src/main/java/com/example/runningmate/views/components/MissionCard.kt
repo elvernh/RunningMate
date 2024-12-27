@@ -41,14 +41,25 @@ fun MissionCard(
             .clip(RoundedCornerShape(10.dp))
             .background(Color.White)
     ) {
-    Image(
-        painter = painterResource(id = imageRes),
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .fillMaxSize()
-            .clip(RoundedCornerShape(10.dp))
-    )
+        // Image background
+        Image(
+            painter = painterResource(id = imageRes),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(10.dp))
+        )
+
+        // Black overlay
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f)) // Semi-transparent black
+                .clip(RoundedCornerShape(10.dp))
+        )
+
+        // Text on top of the overlay
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -64,6 +75,7 @@ fun MissionCard(
             )
         }
     }
+
 }
 
 @Preview(showBackground = true, showSystemUi = true)

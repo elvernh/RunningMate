@@ -57,6 +57,7 @@ fun MenuBar(
                 defaultColor = defaultColor,
                 customFont = customFont,
                 onClick = {
+                    onMenuClick("Home") // Notify parent when "Home" is clicked
                     navController.navigate(PagesEnum.Home.name) {
                         popUpTo(PagesEnum.Home.name) { inclusive = false }
                     }
@@ -71,6 +72,7 @@ fun MenuBar(
                 defaultColor = defaultColor,
                 customFont = customFont,
                 onClick = {
+                    onMenuClick("Record") // Notify parent when "Record" is clicked
                     navController.navigate(PagesEnum.Register.name) {
                         popUpTo(PagesEnum.Register.name) { inclusive = false }
                     }
@@ -85,6 +87,7 @@ fun MenuBar(
                 defaultColor = defaultColor,
                 customFont = customFont,
                 onClick = {
+                    onMenuClick("Friends") // Notify parent when "Friends" is clicked
                     navController.navigate(PagesEnum.FriendList.name) {
                         popUpTo(PagesEnum.FriendList.name) { inclusive = false }
                     }
@@ -99,6 +102,7 @@ fun MenuBar(
                 defaultColor = defaultColor,
                 customFont = customFont,
                 onClick = {
+                    onMenuClick("Profile") // Notify parent when "Profile" is clicked
                     navController.navigate(PagesEnum.ProfilePage.name) {
                         popUpTo(PagesEnum.ProfilePage.name) { inclusive = false }
                     }
@@ -156,8 +160,11 @@ fun showMenuBar() {
     val navController = androidx.navigation.compose.rememberNavController()
     MenuBar(
         selectedMenu = "Home", // Set the initial selected menu
-        onMenuClick = {}, // Pass an empty function for preview
+        onMenuClick = { menu ->
+            // Handle menu selection logic here, such as updating state
+        }, // Pass an empty function for preview
         navController = navController
     )
 }
+
 

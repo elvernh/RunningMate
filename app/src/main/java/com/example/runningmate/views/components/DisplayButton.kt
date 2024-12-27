@@ -30,13 +30,12 @@ fun DisplayButton() {
     val neon = Color(0xFF9CFF00)
 
     Button(
-        onClick = { isUsed = true },
+        onClick = { isUsed = !isUsed },
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isUsed) grayColor else neon,
             contentColor = Color.White
         ),
         shape = RoundedCornerShape(10.dp),
-        enabled = !isUsed,
         modifier = Modifier
             .padding(16.dp)
             .height(48.dp)
