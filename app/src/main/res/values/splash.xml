@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.RunningMate.MySplash" parent="Theme.SplashScreen">
+    <style name="Theme.RunningMate.MySplash" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="windowSplashScreenBackground">#1E1E1E</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
         <item name="postSplashScreenTheme">@style/Theme.RunningMate</item>

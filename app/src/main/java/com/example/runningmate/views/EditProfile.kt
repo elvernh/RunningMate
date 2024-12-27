@@ -126,7 +126,7 @@ fun EditProfile(
                         )
                         Icon(
                             painter = painterResource(id = R.drawable.edit),
-                            contentDescription = "null",
+                            contentDescription = null,
                             modifier = Modifier
                                 .size(50.dp)
                                 .offset(18.dp)
