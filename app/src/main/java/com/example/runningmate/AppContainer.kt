@@ -21,7 +21,7 @@ interface AppContainer {
 class DefaultAppContainer(
     private val userDataStore: DataStore<Preferences>,
 ): AppContainer{
-    private val APIbaseURL = "http://192.168.1.15:3000/" //isi pake IP address wifi //address hotspot elvern
+    private val APIbaseURL = "http://192.168.1.145:3000/" //isi pake IP address wifi //address hotspot elvern
 
     private val authenticationRetrofitService: AuthenticationAPIService by lazy {
         val retrofit = initRetrofit()

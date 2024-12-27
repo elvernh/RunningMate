@@ -1,18 +1,17 @@
 package com.example.runningmate.views.components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
@@ -21,9 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.runningmate.R
 
-
 @Composable
-fun DisplayButton() {
+fun AddFriendButton() {
     var isUsed by remember { mutableStateOf(false) }
     val customFont = FontFamily(Font(R.font.lexend))
     val grayColor = Color(0xFF8F8F8F)
@@ -43,7 +41,7 @@ fun DisplayButton() {
             .width(200.dp)
     ) {
         Text(
-            text = if (isUsed) "Used" else "Display On Profile",
+            text = if (isUsed) "Added" else "Add As Friend",
             color = if (isUsed) Color.White else Color.Black,
             fontFamily = customFont
         )
@@ -52,8 +50,6 @@ fun DisplayButton() {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DisplayButtonPreview() {
-    DisplayButton()
+fun PreviewAddFriend() {
+    AddFriendButton()
 }
-
-
