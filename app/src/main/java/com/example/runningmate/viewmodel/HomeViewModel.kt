@@ -22,6 +22,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -44,6 +45,18 @@ class HomeViewModel(
         initialValue = ""
     )
 
+    val email: StateFlow<String> = userRepository.currentEmail.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = ""
+    )
+
+    val password: StateFlow<String> = userRepository.currentPassword.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = ""
+    )
+
     val token: StateFlow<String> = userRepository.currentUserToken.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -61,9 +74,10 @@ class HomeViewModel(
                 call.enqueue(object: Callback<GeneralResponseModel> {
                     override fun onResponse(call: Call<GeneralResponseModel>, res: Response<GeneralResponseModel>) {
                         if (res.isSuccessful) {
+                            Log.d("a", "aaa")
                             logoutStatus = StringDataStatusUIState.Success(data = res.body()!!.data)
 
-                            saveUsernameToken("Unknown", "Unknown")
+                            saveUsernameTokenEmailPassword("Unknown", "Unknown", "Unknown", "Unknown")
 
                             navController.navigate(PagesEnum.Login.name) {
                                 popUpTo(PagesEnum.Home.name) {
@@ -92,12 +106,16 @@ class HomeViewModel(
             }
         }
     }
-    fun saveUsernameToken(token: String, username: String) {
+    fun saveUsernameTokenEmailPassword(token: String, username: String, email: String, password: String) {
         viewModelScope.launch {
             userRepository.saveUserToken(token)
             userRepository.saveUsername(username)
+            userRepository.saveEmail(email)
+            userRepository.savePassword(password)
         }
     }
+
+
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

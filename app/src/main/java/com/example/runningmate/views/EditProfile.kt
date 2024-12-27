@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -23,6 +24,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -31,6 +33,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,6 +53,9 @@ fun EditProfile(
     homeViewModel: HomeViewModel,
     token: String
 ) {
+    val username = homeViewModel.username.collectAsState()
+    val email = homeViewModel.email.collectAsState()
+    val password = homeViewModel.password.collectAsState()
     val backgroundColor = Color(0xFF171717)
     val grayColor = Color(0xFF8F8F8F)
     val darkRed = Color(0xFFa40a0a)
@@ -139,9 +146,9 @@ fun EditProfile(
                 thickness = 1.dp,
                 color = Color.Gray
             )
-            ProfileItem(label = "Name", value = "RandomUser23")
-            ProfileItem(label = "Email", value = "RandomUser23@gmail.com")
-            ProfileItem(label = "Password", value = "********")
+            ProfileItem(label = "Name", value = username.value)
+            ProfileItem(label = "Email", value = email.value)
+            ProfileItem(label = "Password", value = password.value)
         }
         item {
             Row(
@@ -179,6 +186,11 @@ fun EditProfile(
 fun ProfileItem(label: String, value: String) {
     val grayColor = Color(0xFF8F8F8F)
     val customFont = FontFamily(Font(R.font.lexend))
+
+    // Determine if the value should be masked
+    val isPasswordField = label.equals("Password", ignoreCase = true)
+    val visualTransformation = if (isPasswordField) PasswordVisualTransformation() else VisualTransformation.None
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -193,15 +205,21 @@ fun ProfileItem(label: String, value: String) {
             modifier = Modifier.weight(1f)
         )
 
-        Text(
-            text = value,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontFamily = customFont,
-            modifier = Modifier
-                .weight(2f)
-                .padding(end = 16.dp)
-        )
+        Box(modifier = Modifier.weight(2f)) {
+            BasicTextField(
+                value = value,
+                onValueChange = {}, // No editing for now
+                visualTransformation = visualTransformation,
+                readOnly = true,
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    color = Color.White,
+                    fontSize = 12.sp,
+                    fontFamily = customFont
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
         Icon(
             painter = painterResource(id = R.drawable.arrow_back),
             contentDescription = "",
@@ -211,7 +229,7 @@ fun ProfileItem(label: String, value: String) {
                 .rotate(180f)
                 .clickable(
                     onClick = {
-
+                        // Handle edit action if needed
                     }
                 )
         )
