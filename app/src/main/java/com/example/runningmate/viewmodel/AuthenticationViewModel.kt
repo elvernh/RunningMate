@@ -25,8 +25,8 @@ import java.io.IOException
 
 class AuthenticationViewModel(
     private val authenticationRepository: AuthenticationRepository
-):ViewModel() {
-//    private val _authenticationUIState =
+) : ViewModel() {
+    //    private val _authenticationUIState =
     var usernameInput by mutableStateOf("")
         private set
 
@@ -38,7 +38,7 @@ class AuthenticationViewModel(
 
     var dataStatus: AuthenticationStatusUIState by mutableStateOf(AuthenticationStatusUIState.Start)
         private set
-    
+
     val userName = mutableStateOf("")
     val email = mutableStateOf("")
     val password = mutableStateOf("")
@@ -55,14 +55,14 @@ class AuthenticationViewModel(
         this.emailInput = emailInput
     }
 
-    fun resetViewModel(){
+    fun resetViewModel() {
         changeUsernameInput("")
         changePasswordInput("")
         changeEmailInput("")
     }
 
 
-    companion object{
+    companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as RunningMateApplication)
@@ -72,23 +72,24 @@ class AuthenticationViewModel(
         }
     }
 
-    fun registerUser(navController: NavHostController){
+    fun registerUser(navController: NavHostController) {
         viewModelScope.launch {
             dataStatus = AuthenticationStatusUIState.Loading
 
             try {
-                val call = authenticationRepository.register(usernameInput, emailInput, passwordInput)
-                call.enqueue(object: Callback<UserResponse>{
-                    override fun onResponse(call: Call<UserResponse>, res: Response<UserResponse>){
-                        if(res.isSuccessful){
+                val call =
+                    authenticationRepository.register(usernameInput, emailInput, passwordInput)
+                call.enqueue(object : Callback<UserResponse> {
+                    override fun onResponse(call: Call<UserResponse>, res: Response<UserResponse>) {
+                        if (res.isSuccessful) {
                             Log.d("response-data", "RESPONSE DATA: ${res.body()}")
 
                             dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
 
                             resetViewModel()
 
-                            navController.navigate(PagesEnum.Welcome.name){ //ini hrs di cari tau arti codingannya apa
-                                popUpTo(PagesEnum.Register.name){
+                            navController.navigate(PagesEnum.Welcome.name) { //ini hrs di cari tau arti codingannya apa
+                                popUpTo(PagesEnum.Register.name) {
                                     inclusive = true
                                 }
                             }
@@ -101,32 +102,33 @@ class AuthenticationViewModel(
 
                 })
 
-            }catch (error: IOException){
+            } catch (error: IOException) {
 
             }
         }
     }
-    fun loginUser(navController: NavHostController){
+
+    fun loginUser(navController: NavHostController) {
         viewModelScope.launch {
             dataStatus = AuthenticationStatusUIState.Loading
 
             try {
                 val call = authenticationRepository.login(emailInput, passwordInput)
-                call.enqueue(object: Callback<UserResponse>{
-                    override fun onResponse(call: Call<UserResponse>, res: Response<UserResponse>){
-                        if(res.isSuccessful){
+                call.enqueue(object : Callback<UserResponse> {
+                    override fun onResponse(call: Call<UserResponse>, res: Response<UserResponse>) {
+                        if (res.isSuccessful) {
                             Log.d("response-data", "RESPONSE DATA: ${res.body()}")
 
-                            userName.value = res.body()?.data?.username?: "Guest"
-                            email.value = res.body()?.data?.email?: "Guest"
-                            password.value = res.body()?.data?.password?: "Guest"
+                            userName.value = res.body()?.data?.username ?: "Guest"
+                            email.value = res.body()?.data?.email ?: "Guest"
+                            password.value = res.body()?.data?.password ?: "Guest"
 
                             dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
 
                             resetViewModel()
 
-                            navController.navigate(PagesEnum.Home.name){
-                                popUpTo(PagesEnum.Home.name){
+                            navController.navigate(PagesEnum.Home.name) {
+                                popUpTo(PagesEnum.Home.name) {
                                     inclusive = true
                                 }
                             }
@@ -140,7 +142,7 @@ class AuthenticationViewModel(
 
                 })
 
-            }catch (error: IOException){
+            } catch (error: IOException) {
 
             }
         }

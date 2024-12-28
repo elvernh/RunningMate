@@ -1,5 +1,6 @@
 package com.example.runningmate.repositories
 
+import com.example.runningmate.models.AchievementResponse
 import com.example.runningmate.models.UserResponse
 import com.example.runningmate.services.AuthenticationAPIService
 import retrofit2.Call

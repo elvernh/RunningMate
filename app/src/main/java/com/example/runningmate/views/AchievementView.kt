@@ -1,11 +1,15 @@
 package com.example.runningmate.views
 
+import android.view.ViewDebug.IntToString
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,6 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.runningmate.R
+import com.example.runningmate.repositories.AchievementRepository
+import com.example.runningmate.services.AchievementAPIService
+import com.example.runningmate.viewmodel.AchievementViewModel
 import com.example.runningmate.views.components.AchievementCard
 import com.example.runningmate.views.components.AchievementState
 
@@ -29,7 +36,8 @@ data class AchievementCardData(
 
 // AchievementView
 @Composable
-fun AchievementView() {
+fun AchievementView(viewModel: AchievementViewModel) {
+    val achievements by viewModel.achievements.collectAsState()
     val cards = listOf(
         AchievementCardData("First 1km", "Complete your first one kilometer.", R.drawable.image_1, AchievementState.UNLOCKED),
         AchievementCardData("Speed Run", "Run 100m within 15s.", R.drawable.image_2, AchievementState.UNLOCKED),
@@ -78,16 +86,16 @@ fun AchievementView() {
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(cards.chunked(2).size) { rowIndex ->
+            items(achievements) { rowIndex ->
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     val cardData1 = cards[rowIndex * 2]
                     AchievementCard(
-                        title = cardData1.title,
-                        description = cardData1.description,
-                        imageRes = cardData1.imageRes,
+                        title = rowIndex.name,
+                        description = rowIndex.description,
+                        imageRes = rowIndex.image,
                         state = cardData1.state,
                         modifier = Modifier.weight(1f)
                     )
@@ -111,5 +119,5 @@ fun AchievementView() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewAchievementScreen() {
-    AchievementView()
+    AchievementView(viewModel = AchievementViewModel(AchievementRepository()))
 }
