@@ -12,4 +12,6 @@
     <string name="don_t_have_an_account_yet_text">"Don't have an account yet? "</string>
     <string name="sign_up_text">Sign Up</string>
     <string name="ready_to_run">Ready To Run Today?</string>
+    <string name="google_maps_api_key">AIzaSyCzJQBi_SX7kCzINrggSKMneILyHciHq1o</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

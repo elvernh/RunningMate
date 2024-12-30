@@ -62,9 +62,9 @@ class NetworkUserRepository(
         }
     }
 
-    override suspend fun savePassword(username: String) {
+    override suspend fun savePassword(password: String) {
         userDataStore.edit { preferences ->
-            preferences[PASSWORD] = username
+            preferences[PASSWORD] = password
         }
     }
 
