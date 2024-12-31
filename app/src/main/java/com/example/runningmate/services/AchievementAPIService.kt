@@ -7,5 +7,5 @@ import retrofit2.http.GET
 
 interface AchievementAPIService {
     @GET("/achievements")
-fun getAchievements(): Call<List<GetAchievementsResponse>>
+fun getAchievements(): Call<GetAchievementsResponse>
 }

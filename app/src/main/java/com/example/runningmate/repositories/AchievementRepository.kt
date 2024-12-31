@@ -1,5 +1,6 @@
 package com.example.runningmate.repositories
 
+import com.example.runningmate.models.AchievementModel
 import com.example.runningmate.models.AchievementResponse
 import com.example.runningmate.services.AchievementAPIService
 import com.example.runningmate.models.GetAchievementsResponse
@@ -10,7 +11,7 @@ interface AchievementRepository {
     fun getAchievements(): Call<GetAchievementsResponse>
 }
 class NetworkAchievementRepository (private val achievementAPIService: AchievementAPIService): AchievementRepository{
-    override fun getAchievements(): Call<List<AchievementResponse>>{
+    override fun getAchievements(): Call<GetAchievementsResponse> {
         return achievementAPIService.getAchievements()
     }
 }
