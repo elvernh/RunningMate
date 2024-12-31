@@ -38,8 +38,8 @@ enum class AchievementState {
 fun AchievementCard(
     title: String,
     description: String,
-    imageRes: Int,
-    state: AchievementState,
+    imageUrl: String,
+//    state: AchievementState,
     modifier: Modifier = Modifier
 ) {
     val primaryColor = Color(0xFF)
@@ -56,8 +56,7 @@ fun AchievementCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = imageRes),
-                contentDescription = null,
+                painter = painterResource(id = R.drawable.bell),                contentDescription = null,
                 modifier = Modifier
                     .width(50.dp)
                     .height(70.dp)
@@ -84,9 +83,9 @@ fun AchievementCard(
 
             Button(
                 onClick = { /* Handle button click */ },
-                enabled = state == AchievementState.UNLOCKED,
+//                enabled = state == AchievementState.UNLOCKED,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (state == AchievementState.LOCKED) Color.Gray else Color(0xFF9CFF00)
+//                    containerColor = if (state == AchievementState.LOCKED) Color.Gray else Color(0xFF9CFF00)
                 ),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(
@@ -95,22 +94,22 @@ fun AchievementCard(
                 )
             ) {
                 Text(
-                    text = if (state == AchievementState.LOCKED) "Locked" else "Display as Profile",
-                    color = if (state == AchievementState.LOCKED) Color.White else Color.Black,
+                    text =  "Locked" ,
+                    color =  Color.White ,
                     fontSize = 13.sp,
                 )
             }
         }
 
-        if (state == AchievementState.LOCKED) {
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(Color(0xAA000000), shape = RoundedCornerShape(8.dp))
-            )
+//        if (state == AchievementState.LOCKED) {
+//            Box(
+//                modifier = Modifier
+//                    .matchParentSize()
+//                    .background(Color(0xAA000000), shape = RoundedCornerShape(8.dp))
+//            )
         }
     }
-}
+
 
 
 @Preview(showBackground = true)
@@ -120,15 +119,15 @@ fun PreviewAchievementScreen() {
         AchievementCard(
             title = "First 1km",
             description = "Complete your first one kilometer.",
-            imageRes = R.drawable.image_1,
-            state = AchievementState.LOCKED
+            imageUrl = R.drawable.image_1.toString(),
+//            state = AchievementState.LOCKED
         )
 
         AchievementCard(
             title = "First 5km",
             description = "Complete your first five kilometers.",
-            imageRes = R.drawable.image_1,
-            state = AchievementState.UNLOCKED
+            imageUrl = R.drawable.image_1.toString(),
+//            state = AchievementState.UNLOCKED
         )
     }
 }

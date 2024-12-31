@@ -8,5 +8,6 @@ enum class PagesEnum {
     EditProfile,
     ProfilePage,
     FriendList,
-    Record
+    Record,
+    AchievementView
 }

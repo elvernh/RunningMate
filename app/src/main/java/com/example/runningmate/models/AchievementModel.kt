@@ -7,6 +7,9 @@ data class AchievementResponse (
 data class AchievementModel(
     val name: String,
     val description: String,
-    val image: String,
-    val token: String?
+    val image: String
+)
+
+data class GetAchievementsResponse(
+    val data: List<AchievementModel>
 )

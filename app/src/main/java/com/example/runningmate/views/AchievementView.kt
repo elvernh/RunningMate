@@ -1,6 +1,6 @@
 package com.example.runningmate.views
 
-import android.view.ViewDebug.IntToString
+//import android.view.ViewDebug.IntToString
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,35 +19,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.runningmate.R
 import com.example.runningmate.repositories.AchievementRepository
-import com.example.runningmate.services.AchievementAPIService
+import com.example.runningmate.uiStates.AchievementDataStatusUIState
+//import com.example.runningmate.services.AchievementAPIService
 import com.example.runningmate.viewmodel.AchievementViewModel
 import com.example.runningmate.views.components.AchievementCard
-import com.example.runningmate.views.components.AchievementState
+//import com.example.runningmate.views.components.AchievementState
 
-// Step 1: Data model for the cards
 data class AchievementCardData(
     val title: String,
     val description: String,
     val imageRes: Int,
-    val state: AchievementState
 )
 
-// AchievementView
 @Composable
-fun AchievementView(viewModel: AchievementViewModel) {
-    val achievements by viewModel.achievements.collectAsState()
-    val cards = listOf(
-        AchievementCardData("First 1km", "Complete your first one kilometer.", R.drawable.image_1, AchievementState.UNLOCKED),
-        AchievementCardData("Speed Run", "Run 100m within 15s.", R.drawable.image_2, AchievementState.UNLOCKED),
-        AchievementCardData("Total Distance", "You have run a total of 100m.", R.drawable.image_3, AchievementState.LOCKED),
-        AchievementCardData("7 day-Streak", "Daily jogging routine.", R.drawable.image_4, AchievementState.LOCKED),
-        AchievementCardData("Social Star", "Add 10 Friends", R.drawable.image_5, AchievementState.LOCKED),
-        AchievementCardData("Calories Crusher", "Burn a total of 1000Kcal", R.drawable.image_6, AchievementState.LOCKED),
-        AchievementCardData("Marathoner", "Run a total of 42 km (26.2 miles).", R.drawable.image_7, AchievementState.LOCKED),
-        AchievementCardData("First Timer", "Used the app for the first time", R.drawable.image_8, AchievementState.LOCKED)
-    )
+fun AchievementView(viewModel: AchievementViewModel,navController: NavHostController) {
+    val achievementDataStatus by viewModel.achievementDataStatus.collectAsState()
 
     Column(
         modifier = Modifier
@@ -55,66 +44,53 @@ fun AchievementView(viewModel: AchievementViewModel) {
             .background(Color(0xFF171717))
             .padding(16.dp)
     ) {
-        Spacer(modifier = Modifier.height(40.dp))
+        Text(
+            text = "Achievements",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.White,
+            modifier = Modifier.padding(16.dp)
+        )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.arrow_back),
-                contentDescription = "Achievement Icon",
-                modifier = Modifier.size(30.dp),
-                colorFilter = ColorFilter.tint(Color.White)
-            )
-
-            Spacer(modifier = Modifier.width(70.dp))
-
-            Text(
-                text = "Achievements",
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                color = Color.White,
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(achievements) { rowIndex ->
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.fillMaxWidth()
+        when (achievementDataStatus) {
+            is AchievementDataStatusUIState.Loading -> {
+                Text(
+                    text = "Loading achievements...",
+                    color = Color.Gray,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is AchievementDataStatusUIState.Success -> {
+                val achievements = (achievementDataStatus as AchievementDataStatusUIState.Success).data
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    val cardData1 = cards[rowIndex * 2]
-                    AchievementCard(
-                        title = rowIndex.name,
-                        description = rowIndex.description,
-                        imageRes = rowIndex.image,
-                        state = cardData1.state,
-                        modifier = Modifier.weight(1f)
-                    )
-
-                    if (rowIndex * 2 + 1 < cards.size) {
-                        val cardData2 = cards[rowIndex * 2 + 1]
+                    items(achievements) { achievement ->
                         AchievementCard(
-                            title = cardData2.title,
-                            description = cardData2.description,
-                            imageRes = cardData2.imageRes,
-                            state = cardData2.state,
-                            modifier = Modifier.weight(1f)
+                            title = achievement.name,
+                            description = achievement.description,
+                            imageUrl = achievement.image,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                 }
             }
+            is AchievementDataStatusUIState.Failed -> {
+                val errorMessage = (achievementDataStatus as AchievementDataStatusUIState.Failed).errorMessage
+                Text(
+                    text = "Failed to load achievements: $errorMessage",
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            else -> {
+
+            }
         }
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable

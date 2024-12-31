@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.runningmate.enums.PagesEnum
+import com.example.runningmate.viewmodel.AchievementViewModel
 import com.example.runningmate.viewmodel.AuthenticationViewModel
 import com.example.runningmate.viewmodel.HomeViewModel
 
@@ -20,6 +21,7 @@ fun RunningMateApp(
     navController: NavHostController = rememberNavController(),
     authenticationViewModel: AuthenticationViewModel = viewModel(factory = AuthenticationViewModel.Factory),
     homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
+    achievementViewModel: AchievementViewModel = viewModel(factory = AchievementViewModel.Factory)
     ){
     val token = homeViewModel.token.collectAsState()
     NavHost(navController = navController, startDestination = PagesEnum.Welcome.name){
@@ -72,6 +74,12 @@ fun RunningMateApp(
         composable(route = PagesEnum.Record.name){
             RunningView(
                 authenticationViewModel = authenticationViewModel,
+                navController = navController
+            )
+        }
+        composable(route = PagesEnum.AchievementView.name) {
+            AchievementView(
+                achievementViewModel = achievementViewModel,
                 navController = navController
             )
         }

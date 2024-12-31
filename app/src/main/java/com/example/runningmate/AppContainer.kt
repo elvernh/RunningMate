@@ -2,6 +2,7 @@ package com.example.runningmate
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.example.runningmate.repositories.AchievementRepository
 import com.example.runningmate.repositories.AuthenticationRepository
 import com.example.runningmate.repositories.NetworkAuthenticationRepository
 import com.example.runningmate.repositories.NetworkUserRepository
@@ -16,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 interface AppContainer {
     val authenticationRepository: AuthenticationRepository
     val userRepository: UserRepository
+    val achievementRepository: AchievementRepository
 }
 
 class DefaultAppContainer(

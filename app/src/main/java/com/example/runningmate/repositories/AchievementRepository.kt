@@ -1,13 +1,16 @@
 package com.example.runningmate.repositories
 
-import com.example.runningmate.models.AchievementModel
+import com.example.runningmate.models.AchievementResponse
 import com.example.runningmate.services.AchievementAPIService
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.runningmate.models.GetAchievementsResponse
+import retrofit2.Call
 
-class AchievementRepository() {
-    private val apiService: AchievementAPIService = TODO()
-    suspend fun fetchAchievements(): List<AchievementModel> {
-        return apiService.getAchievements()
+
+interface AchievementRepository {
+    fun getAchievements(): Call<GetAchievementsResponse>
+}
+class NetworkAchievementRepository (private val achievementAPIService: AchievementAPIService): AchievementRepository{
+    override fun getAchievements(): Call<List<AchievementResponse>>{
+        return achievementAPIService.getAchievements()
     }
 }
