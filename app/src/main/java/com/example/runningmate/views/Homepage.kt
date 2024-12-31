@@ -109,6 +109,21 @@ fun Homepage(
             item {
                 WeeklySnapshot()
             }
+            item {
+                Column(Modifier.background(Color.White).clickable(
+                    onClick = {
+                        navController.navigate(PagesEnum.AchievementView.name){
+                            popUpTo(PagesEnum.AchievementView.name){
+                                inclusive
+                            }
+                        }
+                    }
+                )) {
+                    Text(
+                        "Pencet Sini BUat achivemenet"
+                    )
+                }
+            }
         }
 
         // Fixed Menu Bar

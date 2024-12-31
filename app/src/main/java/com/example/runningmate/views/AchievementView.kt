@@ -35,8 +35,8 @@ data class AchievementCardData(
 )
 
 @Composable
-fun AchievementView(viewModel: AchievementViewModel,navController: NavHostController) {
-    val achievementDataStatus by viewModel.achievementDataStatus.collectAsState()
+fun AchievementView(achievementViewModel: AchievementViewModel, navController: NavHostController) {
+    val achievementDataStatus by achievementViewModel.achievementDataStatus.collectAsState()
 
     Column(
         modifier = Modifier
@@ -61,13 +61,11 @@ fun AchievementView(viewModel: AchievementViewModel,navController: NavHostContro
                 )
             }
             is AchievementDataStatusUIState.Success -> {
-                val achievements = (achievementDataStatus as AchievementDataStatusUIState.Success).data
+                val achievements = (achievementDataStatus as AchievementDataStatusUIState.Success).data.data
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(achievements)
-
-
+                   items(achievements)
                      { achievement ->
                         AchievementCard(
                             title = achievement.name,
@@ -95,8 +93,8 @@ fun AchievementView(viewModel: AchievementViewModel,navController: NavHostContro
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewAchievementScreen() {
-    AchievementView(viewModel = AchievementViewModel(AchievementRepository()))
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewAchievementScreen() {
+//    AchievementView(viewModel = AchievementViewModel(AchievementRepository()))
+//}
