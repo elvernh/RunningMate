@@ -65,7 +65,10 @@ fun AchievementView(viewModel: AchievementViewModel,navController: NavHostContro
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(achievements) { achievement ->
+                    items(achievements)
+
+
+                     { achievement ->
                         AchievementCard(
                             title = achievement.name,
                             description = achievement.description,

@@ -4,9 +4,11 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.runningmate.repositories.AchievementRepository
 import com.example.runningmate.repositories.AuthenticationRepository
+import com.example.runningmate.repositories.NetworkAchievementRepository
 import com.example.runningmate.repositories.NetworkAuthenticationRepository
 import com.example.runningmate.repositories.NetworkUserRepository
 import com.example.runningmate.repositories.UserRepository
+import com.example.runningmate.services.AchievementAPIService
 import com.example.runningmate.services.AuthenticationAPIService
 import com.example.todolistapp.services.UserAPIService
 import okhttp3.OkHttpClient
@@ -31,6 +33,11 @@ class DefaultAppContainer(
         retrofit.create(AuthenticationAPIService::class.java)
     }
 
+    private val achievementretrofitService: AchievementAPIService by lazy {
+        val retrofit = initRetrofit()
+
+        retrofit.create(AchievementAPIService::class.java)
+    }
     private fun initRetrofit(): Retrofit {
         val logging = HttpLoggingInterceptor()
         logging.level = (HttpLoggingInterceptor.Level.BODY)
@@ -53,5 +60,9 @@ class DefaultAppContainer(
 
     override val userRepository: UserRepository by lazy {
         NetworkUserRepository(userDataStore, userRetrofitService)
+    }
+
+    override val achievementRepository: AchievementRepository by lazy {
+        NetworkAchievementRepository(achievementretrofitService)
     }
 }
