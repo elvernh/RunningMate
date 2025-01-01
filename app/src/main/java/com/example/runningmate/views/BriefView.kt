@@ -68,6 +68,7 @@ fun BriefView(
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 fontFamily = customFont,
+                lineHeight = 40.sp
             )
             // Sub header text
             Text(

@@ -2,6 +2,7 @@ package com.example.runningmate.views
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +46,7 @@ fun Homepage(
     navController: NavHostController,
 ) {
     val backgroundColor = Color(0xFF171717)
+    val containerColor = Color(0xFF1E1E1E)
     val greetingText = getCurrentGreeting(authenticationViewModel)
     val greetingColor = Color(0xFF8F8F8F)
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
@@ -110,20 +115,74 @@ fun Homepage(
                 WeeklySnapshot()
             }
             item {
-                Column(Modifier.background(Color.White).clickable(
-                    onClick = {
-                        navController.navigate(PagesEnum.AchievementView.name){
-                            popUpTo(PagesEnum.AchievementView.name){
-                                inclusive
+                Column(Modifier.padding(vertical = 20.dp)) {
+                    // Title Row
+                    Row(Modifier.fillMaxWidth().padding(bottom = 10.dp)) {
+                        Text(
+                            text = "Achievement Badges",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            fontFamily = customFont,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    // Main Content Row
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(containerColor, shape = RoundedCornerShape(12.dp))
+                            .padding(vertical = 20.dp)
+                            .clickable(
+                                onClick = {
+                                    navController.navigate(PagesEnum.AchievementView.name) {
+                                        popUpTo(PagesEnum.AchievementView.name) {
+                                            inclusive = true
+                                        }
+                                    }
+                                }
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center // Centers content horizontally
+                    ) {
+                        // Single Column for all content
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally, // Centers content within the Column
+                            modifier = Modifier.padding(horizontal = 16.dp) // Add padding for spacing
+                        ) {
+                            // Image
+                            Image(
+                                painter = painterResource(id = R.drawable.image_1),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .padding(bottom = 15.dp)
+                            )
+                            // Title Text
+                            Text(
+                                text = "Check All of Your Available Achievements!",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = customFont,
+                                textAlign = TextAlign.Center // Centers the text
+                            )
+                            // Subtitle Text
+                            Row(Modifier.fillMaxWidth().padding(top = 20.dp ,end = 11.dp), horizontalArrangement = Arrangement.End) {
+                                Text(
+                                    text = "See All Achievements",
+                                    color = Color(0xFF9CFF00),
+                                    fontFamily = customFont,
+                                    textAlign = TextAlign.End, // Centers the text
+                                    fontSize = 10.sp
+                                )
                             }
+
                         }
                     }
-                )) {
-                    Text(
-                        "Pencet Sini BUat achivemenet"
-                    )
+
                 }
             }
+
         }
 
         // Fixed Menu Bar

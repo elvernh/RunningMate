@@ -129,8 +129,6 @@ fun LoginView(
                         fontSize = 10.sp,
                     )
 
-                    Spacer(modifier = Modifier.height(4.dp)) // Add spacing between the texts
-
                     Text(
                         text = stringResource(id = R.string.sign_up_text),
                         fontWeight = FontWeight.Bold,

@@ -1,5 +1,6 @@
 package com.example.runningmate.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -51,13 +52,19 @@ class AchievementViewModel(
                         call: Call<GetAchievementsResponse>,
                         response: Response<GetAchievementsResponse>
                     ) {
+                        Log.d("API_Response", "Response: ${response.code()} - ${response.message()}")
                         if (response.isSuccessful) {
                             val achievements = response.body()
-                            _achievementDataStatus.value =
-                                AchievementDataStatusUIState.Success(achievements!!)
+                            if (achievements != null) {
+                                _achievementDataStatus.value =
+                                    AchievementDataStatusUIState.Success(achievements)
+                            } else {
+                                _achievementDataStatus.value =
+                                    AchievementDataStatusUIState.Failed("Response body is null")
+                            }
                         } else {
                             _achievementDataStatus.value =
-                                AchievementDataStatusUIState.Failed("Error: ${response.code()}")
+                                AchievementDataStatusUIState.Failed("Error: ${response.code()} - ${response.message()}")
                         }
                     }
 

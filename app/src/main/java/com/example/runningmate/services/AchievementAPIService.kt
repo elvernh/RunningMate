@@ -6,6 +6,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface AchievementAPIService {
-    @GET("/achievements")
+    @GET("/api/achievements")
     fun getAchievements(): Call<GetAchievementsResponse>
 }
