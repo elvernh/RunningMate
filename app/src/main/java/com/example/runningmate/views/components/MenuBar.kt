@@ -32,7 +32,7 @@ fun MenuBar(
     modifier: Modifier = Modifier, // Set a default modifier to avoid errors
     navController: NavHostController // Add NavHostController for navigation
 ) {
-    val ColorBasic = Color(0xFF1E1E1E)
+    val colorBasic = Color(0xFF1E1E1E)
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
     val selectedColor = Color(0xFF9CFF00) // Green color for selected menu
     val defaultColor = Color.White
@@ -44,7 +44,7 @@ fun MenuBar(
         Row(
             Modifier
                 .fillMaxWidth()
-                .background(ColorBasic)
+                .background(colorBasic)
                 .padding(start = 35.dp, end = 35.dp, top = 20.dp, bottom = 50.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -154,13 +154,13 @@ fun MenuItem(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun showMenuBar() {
+fun ShowMenuBar() {
     // Mock Preview
     // You would replace `rememberNavController()` with your real `NavHostController`
     val navController = androidx.navigation.compose.rememberNavController()
     MenuBar(
         selectedMenu = "Home", // Set the initial selected menu
-        onMenuClick = { menu ->
+        onMenuClick = {
             // Handle menu selection logic here, such as updating state
         }, // Pass an empty function for preview
         navController = navController

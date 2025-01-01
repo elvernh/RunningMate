@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +40,8 @@ import com.example.runningmate.viewmodel.AuthenticationViewModel
 import com.example.runningmate.views.components.MenuBar
 import com.example.runningmate.views.components.WeeklySnapshot
 import java.time.LocalTime
+import androidx.compose.runtime.remember
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -49,6 +53,7 @@ fun Homepage(
     val containerColor = Color(0xFF1E1E1E)
     val greetingText = getCurrentGreeting(authenticationViewModel)
     val greetingColor = Color(0xFF8F8F8F)
+    val selectedMenu by remember{ mutableStateOf("Home") }
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
 
     Column(
@@ -187,7 +192,7 @@ fun Homepage(
 
         // Fixed Menu Bar
         MenuBar(
-            selectedMenu = "Home", // Pass the currently selected menu
+            selectedMenu = selectedMenu, // Pass the currently selected menu
             onMenuClick = { menu ->
                 if (menu != "Home") { // Avoid navigating to the current screen
                     navController.navigate(menu.lowercase()) {
@@ -218,7 +223,7 @@ fun getCurrentGreeting(authenticationViewModel: AuthenticationViewModel): String
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun prevHomepage() {
+fun PrevHomepage() {
     val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
     Homepage(authenticationViewModel = mockViewModel, navController = rememberNavController())
 }
