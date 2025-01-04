@@ -34,10 +34,10 @@ fun MissionCard(
 
     Box(
         modifier = Modifier
-            .width(185.dp)
+            .width(155.dp)
             .fillMaxWidth()
             .height(250.dp)
-            .padding(16.dp)
+            .padding(0.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(Color.White)
     ) {
@@ -45,7 +45,7 @@ fun MissionCard(
         Image(
             painter = painterResource(id = imageRes),
             contentDescription = null,
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Fit,
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(10.dp))

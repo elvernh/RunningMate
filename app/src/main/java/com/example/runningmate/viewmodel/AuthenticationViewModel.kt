@@ -16,6 +16,7 @@ import com.example.runningmate.RunningMateApplication
 import com.example.runningmate.enums.PagesEnum
 import com.example.runningmate.models.UserResponse
 import com.example.runningmate.repositories.AuthenticationRepository
+import com.example.runningmate.repositories.UserRepository
 import com.example.runningmate.uiStates.AuthenticationStatusUIState
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -24,7 +25,8 @@ import retrofit2.Response
 import java.io.IOException
 
 class AuthenticationViewModel(
-    private val authenticationRepository: AuthenticationRepository
+    private val authenticationRepository: AuthenticationRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
     //    private val _authenticationUIState =
     var usernameInput by mutableStateOf("")
@@ -67,7 +69,8 @@ class AuthenticationViewModel(
             initializer {
                 val application = (this[APPLICATION_KEY] as RunningMateApplication)
                 val authenticationRepository = application.container.authenticationRepository
-                AuthenticationViewModel(authenticationRepository)
+                val userRepository = application.container.userRepository
+                AuthenticationViewModel(authenticationRepository, userRepository)
             }
         }
     }
@@ -83,6 +86,7 @@ class AuthenticationViewModel(
                     override fun onResponse(call: Call<UserResponse>, res: Response<UserResponse>) {
                         if (res.isSuccessful) {
                             Log.d("response-data", "RESPONSE DATA: ${res.body()}")
+                            saveUsernameToken(res.body()!!.data.token!!, res.body()!!.data.username!!)
 
                             dataStatus = AuthenticationStatusUIState.Success(res.body()!!.data)
 
@@ -96,8 +100,9 @@ class AuthenticationViewModel(
                         }
                     }
 
-                    override fun onFailure(p0: Call<UserResponse>, p1: Throwable) {
-                        TODO("Not yet implemented")
+                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                        Log.d("error-data", "ERROR DATA: ${t.localizedMessage}")
+                        dataStatus = AuthenticationStatusUIState.Failed(t.localizedMessage)
                     }
 
                 })
@@ -119,6 +124,8 @@ class AuthenticationViewModel(
                         if (res.isSuccessful) {
                             Log.d("response-data", "RESPONSE DATA: ${res.body()}")
 
+                            saveUsernameToken(res.body()!!.data.token!!, res.body()!!.data.username!!)
+
                             userName.value = res.body()?.data?.username ?: "Guest"
                             email.value = res.body()?.data?.email ?: "Guest"
                             password.value = res.body()?.data?.password ?: "Guest"
@@ -135,8 +142,8 @@ class AuthenticationViewModel(
                         }
                     }
 
-                    override fun onFailure(p0: Call<UserResponse>, p1: Throwable) {
-                        TODO("Not yet implemented")
+                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                        dataStatus = AuthenticationStatusUIState.Failed(t.localizedMessage)
                     }
 
 
@@ -145,6 +152,16 @@ class AuthenticationViewModel(
             } catch (error: IOException) {
 
             }
+        }
+    }
+    fun clearErrorMessage() {
+        dataStatus = AuthenticationStatusUIState.Start
+    }
+
+    fun saveUsernameToken(token: String, username: String) {
+        viewModelScope.launch {
+            userRepository.saveUserToken(token)
+            userRepository.saveUsername(username)
         }
     }
 }

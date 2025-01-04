@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -25,13 +26,13 @@ fun AuthenticationOutlinedTextField(
     inputPlaceholder: String,
     leadingIconSrc: Painter,
     onKeyboardNext: KeyboardActions,
+    visualTransformation: VisualTransformation = VisualTransformation.None, // Add this parameter
     modifier: Modifier = Modifier
-){
+) {
     val primaryColor = Color(0xFF9CFF00)
     OutlinedTextField(
         value = inputValue,
-        onValueChange = onInputValueChange
-        ,
+        onValueChange = onInputValueChange,
         singleLine = true,
         label = {
             Text(
@@ -57,12 +58,13 @@ fun AuthenticationOutlinedTextField(
                 contentDescription = null
             )
         },
-//        keyboardOptions = keyboardType,
         keyboardActions = onKeyboardNext,
+        visualTransformation = visualTransformation, // Apply visual transformation here
         modifier = modifier,
         shape = RoundedCornerShape(12.dp)
     )
 }
+
 
 @Composable
 fun AuthenticationSubmitButton(

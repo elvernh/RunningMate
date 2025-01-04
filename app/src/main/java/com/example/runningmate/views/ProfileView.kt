@@ -1,5 +1,6 @@
 package com.example.runningmate.views
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,14 +40,15 @@ import com.example.runningmate.R
 import com.example.runningmate.enums.PagesEnum
 import com.example.runningmate.repositories.FakeAuthenticationRepository
 import com.example.runningmate.viewmodel.AuthenticationViewModel
+import com.example.runningmate.viewmodel.HomeViewModel
 import com.example.runningmate.views.components.MenuBar
 
 @Composable
 fun ProfileView(
-    authenticationViewModel: AuthenticationViewModel,
+    homeViewModel: HomeViewModel,
     navController: NavHostController
 ) {
-    val username = authenticationViewModel.userName.value
+    val username by homeViewModel.username.collectAsState()
     val backgroundColor = Color(0xFF171717)
     val grayColor = Color(0xFF8F8F8F)
     val neon = Color(0xFF9CFF00)
@@ -164,24 +168,29 @@ fun ProfileView(
 
         }
         MenuBar(
-            selectedMenu = "Profile", // Pass the currently selected menu
+            selectedMenu = "Profile",
             onMenuClick = { menu ->
-                if (menu != "Profile") { // Avoid navigating to the current screen
-                    navController.navigate(menu.lowercase()) {
-                        launchSingleTop = true // Avoid multiple instances of the same destination
+                try {
+                    val route = PagesEnum.valueOf(menu).name
+                    if (route != "Profile") {
+                        navController.navigate(route) {
+                            launchSingleTop = true
+                        }
                     }
+                } catch (e: IllegalArgumentException) {
+                    Log.e("Profile", "Invalid menu selected: $menu", e)
                 }
             },
-            modifier = Modifier.fillMaxWidth(), // Ensures MenuBar spans the full width
-            navController = navController // Add navController here
+            modifier = Modifier.fillMaxWidth(),
+            navController = navController
         )
     }
 
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun prevProfileView() {
-    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
-    ProfileView(authenticationViewModel = mockViewModel, navController = rememberNavController())
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun prevProfileView() {
+//    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
+//    ProfileView(authenticationViewModel = mockViewModel, navController = rememberNavController())
+//}

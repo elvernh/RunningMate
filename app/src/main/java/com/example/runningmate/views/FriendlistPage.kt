@@ -1,5 +1,6 @@
 package com.example.runningmate.views
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.runningmate.R
+import com.example.runningmate.enums.PagesEnum
 import com.example.runningmate.viewmodel.AuthenticationViewModel
+import com.example.runningmate.views.components.MenuBar
 
 @Composable
 fun FriendlistPage(
@@ -42,43 +45,66 @@ fun FriendlistPage(
 ){
     val customFont = FontFamily(Font(R.font.lexend))
     val backgroundColor = Color(0xFF171717)
-    LazyColumn(
-        Modifier
+    Column(
+        modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
-            .padding(horizontal = 30.dp, vertical = 62.dp)
-    ) {
-        item {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 40.dp)
-            ) {
-                // Back Arrow Icon (Aligned to Start)
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_back),
-                    contentDescription = "",
-                    tint = Color.White,
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .clickable(onClick = {
-                            navController.popBackStack()
-                        })
-                )
+    ){
+        LazyColumn(
+            Modifier
+                .weight(1f)
+                .padding(horizontal = 30.dp, vertical = 62.dp)
+        ) {
+            item {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 40.dp)
+                ) {
+                    // Back Arrow Icon (Aligned to Start)
+                    Icon(
+                        painter = painterResource(id = R.drawable.arrow_back),
+                        contentDescription = "",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .clickable(onClick = {
+                                navController.popBackStack()
+                            })
+                    )
 
-                // Friends Text (Centered)
-                Text(
-                    text = "Friends",
-                    fontFamily = customFont,
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                    // Friends Text (Centered)
+                    Text(
+                        text = "Friends",
+                        fontFamily = customFont,
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
+
+
+
         }
-
-
-
+        MenuBar(
+            selectedMenu = "Friends",
+            onMenuClick = { menu ->
+                try {
+                    val route = PagesEnum.valueOf(menu).name
+                    if (route != "Friends") {
+                        navController.navigate(route) {
+                            launchSingleTop = true
+                        }
+                    }
+                } catch (e: IllegalArgumentException) {
+                    Log.e("Friends", "Invalid menu selected: $menu", e)
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            navController = navController
+        )
     }
+
 }

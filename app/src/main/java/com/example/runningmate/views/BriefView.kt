@@ -135,12 +135,12 @@ fun BriefView(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PreBriefView() {
-    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
-    BriefView(
-        authenticationViewModel = mockViewModel,
-        navController = rememberNavController()
-    )
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun PreBriefView() {
+//    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
+//    BriefView(
+//        authenticationViewModel = mockViewModel,
+//        navController = rememberNavController()
+//    )
+//}

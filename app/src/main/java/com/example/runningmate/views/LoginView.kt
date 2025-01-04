@@ -1,5 +1,7 @@
 package com.example.runningmate.views
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -23,6 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.runningmate.R
 import com.example.runningmate.enums.PagesEnum
 import com.example.runningmate.repositories.FakeAuthenticationRepository
+import com.example.runningmate.uiStates.AuthenticationStatusUIState
 import com.example.runningmate.viewmodel.AuthenticationViewModel
 import com.example.runningmate.views.components.AuthenticationOutlinedTextField
 import com.example.runningmate.views.components.AuthenticationSubmitButton
@@ -40,12 +46,19 @@ import com.example.runningmate.views.components.BackButton
 @Composable
 fun LoginView(
     authenticationViewModel: AuthenticationViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    context: Context
 ){
     val backgroundColor = Color(0xFF1E1E1E)
     val focusManager = LocalFocusManager.current
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
-
+    LaunchedEffect(authenticationViewModel.dataStatus) {
+        val dataStatus = authenticationViewModel.dataStatus
+        if (dataStatus is AuthenticationStatusUIState.Failed) {
+            Toast.makeText(context, dataStatus.errorMessage, Toast.LENGTH_SHORT).show()
+            authenticationViewModel.clearErrorMessage()
+        }
+    }
     Column(modifier = Modifier.fillMaxSize().background(backgroundColor).padding(vertical = 78.dp, horizontal = 32.dp)) {
 
         // Back Button
@@ -78,6 +91,7 @@ fun LoginView(
                     onKeyboardNext = KeyboardActions(
                         onNext = { focusManager.moveFocus(FocusDirection.Down) }
                     ),
+                    visualTransformation = VisualTransformation.None,
                     Modifier.fillMaxWidth()
                 )
             }
@@ -93,6 +107,7 @@ fun LoginView(
                     onKeyboardNext = KeyboardActions(
                         onNext = { focusManager.moveFocus(FocusDirection.Down) }
                     ),
+                    visualTransformation = PasswordVisualTransformation(),
                     Modifier.fillMaxWidth()
                 )
             }
@@ -155,9 +170,9 @@ fun LoginView(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 34)
-@Composable
-fun prevLoginView(){
-    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
-    LoginView(authenticationViewModel = mockViewModel, navController = rememberNavController())
-}
+//@Preview(showBackground = true, showSystemUi = true, apiLevel = 34)
+//@Composable
+//fun prevLoginView(){
+//    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
+//    LoginView(authenticationViewModel = mockViewModel, navController = rememberNavController())
+//}

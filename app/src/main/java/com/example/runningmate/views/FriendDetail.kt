@@ -137,9 +137,9 @@ fun FriendDetail(
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PreviewFriendDetail() {
-    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
-    FriendDetail(authenticationViewModel = mockViewModel, navController = rememberNavController())
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun PreviewFriendDetail() {
+//    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
+//    FriendDetail(authenticationViewModel = mockViewModel, navController = rememberNavController())
+//}

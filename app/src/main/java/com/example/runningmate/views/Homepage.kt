@@ -1,6 +1,7 @@
 package com.example.runningmate.views
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,19 +47,29 @@ import java.time.LocalTime
 import androidx.compose.runtime.remember
 import com.example.runningmate.uiStates.ChallengeDataStatusUIState
 import com.example.runningmate.viewmodel.ChallengeViewModel
+import com.example.runningmate.viewmodel.HomeViewModel
 import com.example.runningmate.views.components.MissionCard
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Homepage(
-    authenticationViewModel: AuthenticationViewModel,
+    homeViewModel: HomeViewModel,
     navController: NavHostController,
-    challengeViewModel: ChallengeViewModel
+    challengeViewModel: ChallengeViewModel,
+    token: String
 ) {
     val backgroundColor = Color(0xFF171717)
     val containerColor = Color(0xFF1E1E1E)
-    val greetingText = getCurrentGreeting(authenticationViewModel)
+    val userName by homeViewModel.username.collectAsState()
+    val currentHour = LocalTime.now().hour
+    val greeting = when (currentHour) {
+        in 5..11 -> "Good Morning"
+        in 12..17 -> "Good Afternoon"
+        in 18..21 -> "Good Evening"
+        else -> "Good Night"
+    }
+    val greetingText = "$greeting, $userName"
     val greetingColor = Color(0xFF8F8F8F)
     val selectedMenu by remember{ mutableStateOf("Home") }
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
@@ -72,7 +83,7 @@ fun Homepage(
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 30.dp, vertical = 62.dp)
+                .padding(start = 30.dp,end = 30.dp, top = 62.dp)
         ) {
             // Greeting Section
             item {
@@ -149,7 +160,7 @@ fun Homepage(
 
                             LazyRow(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 items(challenges) { challenge ->
                                     MissionCard(
@@ -245,10 +256,15 @@ fun Homepage(
         MenuBar(
             selectedMenu = selectedMenu,
             onMenuClick = { menu ->
-                if (menu != "Home") {
-                    navController.navigate(menu.lowercase()) {
-                        launchSingleTop = true
+                try {
+                    val route = PagesEnum.valueOf(menu).name
+                    if (route != "Home") {
+                        navController.navigate(route) {
+                            launchSingleTop = true
+                        }
                     }
+                } catch (e: IllegalArgumentException) {
+                    Log.e("Homepage", "Invalid menu selected: $menu", e)
                 }
             },
             modifier = Modifier.fillMaxWidth(),
@@ -258,18 +274,7 @@ fun Homepage(
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun getCurrentGreeting(authenticationViewModel: AuthenticationViewModel): String {
-    val userName = authenticationViewModel.userName.value
-    val currentHour = LocalTime.now().hour
-    val greeting = when (currentHour) {
-        in 5..11 -> "Good Morning"
-        in 12..17 -> "Good Afternoon"
-        in 18..21 -> "Good Evening"
-        else -> "Good Night"
-    }
-    return "$greeting, $userName"
-}
+
 
 //@RequiresApi(Build.VERSION_CODES.O)
 //@Preview(showBackground = true, showSystemUi = true)

@@ -1,9 +1,12 @@
 package com.example.runningmate.views
 
+import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
@@ -13,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.runningmate.enums.PagesEnum
 import com.example.runningmate.viewmodel.AchievementViewModel
 import com.example.runningmate.viewmodel.AuthenticationViewModel
+import com.example.runningmate.viewmodel.ChallengeViewModel
 import com.example.runningmate.viewmodel.HomeViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -21,10 +25,17 @@ fun RunningMateApp(
     navController: NavHostController = rememberNavController(),
     authenticationViewModel: AuthenticationViewModel = viewModel(factory = AuthenticationViewModel.Factory),
     homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
-    achievementViewModel: AchievementViewModel = viewModel(factory = AchievementViewModel.Factory)
+    achievementViewModel: AchievementViewModel = viewModel(factory = AchievementViewModel.Factory),
+    challengeViewModel: ChallengeViewModel = viewModel(factory = ChallengeViewModel.Factory)
     ){
+    val localContext = LocalContext.current
     val token = homeViewModel.token.collectAsState()
-    NavHost(navController = navController, startDestination = PagesEnum.Welcome.name){
+    NavHost(navController = navController, startDestination = if(token.value != "Unknown" && token.value != "") {
+        Log.d("Token", token.toString())
+        PagesEnum.Home.name
+    } else {
+        PagesEnum.Login.name
+    }){
         composable(route = PagesEnum.Welcome.name){
             BriefView(
                 authenticationViewModel = authenticationViewModel,
@@ -34,19 +45,23 @@ fun RunningMateApp(
         composable(route = PagesEnum.Register.name){
             RegisterView(
                 authenticationViewModel = authenticationViewModel,
-                navController = navController
+                navController = navController,
+                context = localContext
             )
         }
         composable(route = PagesEnum.Login.name){
             LoginView(
                 authenticationViewModel = authenticationViewModel,
-                navController = navController
+                navController = navController,
+                context = localContext
             )
         }
         composable (route = PagesEnum.Home.name){
             Homepage(
-                authenticationViewModel = authenticationViewModel,
-                navController = navController
+                homeViewModel = homeViewModel,
+                navController = navController,
+                challengeViewModel = challengeViewModel,
+                token = token.value
             )
         }
 
@@ -60,7 +75,7 @@ fun RunningMateApp(
         }
         composable(route = PagesEnum.ProfilePage.name){
             ProfileView(
-                authenticationViewModel = authenticationViewModel,
+                homeViewModel = homeViewModel,
                 navController = navController
             )
         }

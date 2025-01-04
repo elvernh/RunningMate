@@ -58,8 +58,8 @@ fun EditProfile(
 //    val email = homeViewModel.email.collectAsState()
 //    val password = homeViewModel.password.collectAsState()
 
-    val username = authenticationViewModel.userName.value
-    val email = authenticationViewModel.email.value
+    val username = homeViewModel.username.collectAsState().value
+    val email = homeViewModel.email.collectAsState().value
 //    val password = authenticationViewModel.password.value
 
     val backgroundColor = Color(0xFF171717)
