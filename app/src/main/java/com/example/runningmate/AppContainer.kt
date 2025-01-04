@@ -4,12 +4,15 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.runningmate.repositories.AchievementRepository
 import com.example.runningmate.repositories.AuthenticationRepository
+import com.example.runningmate.repositories.ChallengeRepository
 import com.example.runningmate.repositories.NetworkAchievementRepository
 import com.example.runningmate.repositories.NetworkAuthenticationRepository
+import com.example.runningmate.repositories.NetworkChallengeRepository
 import com.example.runningmate.repositories.NetworkUserRepository
 import com.example.runningmate.repositories.UserRepository
 import com.example.runningmate.services.AchievementAPIService
 import com.example.runningmate.services.AuthenticationAPIService
+import com.example.runningmate.services.ChallengeAPIService
 import com.example.todolistapp.services.UserAPIService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,6 +23,7 @@ interface AppContainer {
     val authenticationRepository: AuthenticationRepository
     val userRepository: UserRepository
     val achievementRepository: AchievementRepository
+    val challengeRepository : ChallengeRepository
 }
 
 class DefaultAppContainer(
@@ -38,6 +42,13 @@ class DefaultAppContainer(
 
         retrofit.create(AchievementAPIService::class.java)
     }
+
+    private val challengeretrofitService: ChallengeAPIService by lazy {
+        val retrofit = initRetrofit()
+
+        retrofit.create(ChallengeAPIService::class.java)
+    }
+
     private fun initRetrofit(): Retrofit {
         val logging = HttpLoggingInterceptor()
         logging.level = (HttpLoggingInterceptor.Level.BODY)
@@ -64,5 +75,9 @@ class DefaultAppContainer(
 
     override val achievementRepository: AchievementRepository by lazy {
         NetworkAchievementRepository(achievementretrofitService)
+    }
+
+    override val challengeRepository: ChallengeRepository by lazy {
+        NetworkChallengeRepository(challengeretrofitService)
     }
 }

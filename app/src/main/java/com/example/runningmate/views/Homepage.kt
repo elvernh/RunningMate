@@ -13,10 +13,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
@@ -41,6 +44,9 @@ import com.example.runningmate.views.components.MenuBar
 import com.example.runningmate.views.components.WeeklySnapshot
 import java.time.LocalTime
 import androidx.compose.runtime.remember
+import com.example.runningmate.uiStates.ChallengeDataStatusUIState
+import com.example.runningmate.viewmodel.ChallengeViewModel
+import com.example.runningmate.views.components.MissionCard
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -48,6 +54,7 @@ import androidx.compose.runtime.remember
 fun Homepage(
     authenticationViewModel: AuthenticationViewModel,
     navController: NavHostController,
+    challengeViewModel: ChallengeViewModel
 ) {
     val backgroundColor = Color(0xFF171717)
     val containerColor = Color(0xFF1E1E1E)
@@ -55,18 +62,19 @@ fun Homepage(
     val greetingColor = Color(0xFF8F8F8F)
     val selectedMenu by remember{ mutableStateOf("Home") }
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
+    val challengeDataState by challengeViewModel.challengeDataStatus.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        // Main content inside LazyColumn
         LazyColumn(
             modifier = Modifier
-                .weight(1f) // Use weight to allow LazyColumn to take up remaining space above MenuBar
+                .weight(1f)
                 .padding(horizontal = 30.dp, vertical = 62.dp)
         ) {
+            // Greeting Section
             item {
                 Row(
                     Modifier.fillMaxWidth().padding(bottom = 34.dp),
@@ -107,7 +115,7 @@ fun Homepage(
                             painter = painterResource(id = R.drawable.profile),
                             contentDescription = null,
                             tint = Color.White,
-                            modifier = Modifier.size(28.dp).clickable{
+                            modifier = Modifier.size(28.dp).clickable {
                                 navController.navigate(PagesEnum.EditProfile.name) {
                                     popUpTo(PagesEnum.EditProfile.name) { inclusive = false }
                                 }
@@ -116,12 +124,65 @@ fun Homepage(
                     }
                 }
             }
+
+            // Weekly Snapshot Section
             item {
                 WeeklySnapshot()
             }
+
+            // Challenges Section
             item {
                 Column(Modifier.padding(vertical = 20.dp)) {
-                    // Title Row
+                    Row(Modifier.fillMaxWidth().padding(bottom = 10.dp)) {
+                        Text(
+                            text = "Challenges",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            fontFamily = customFont,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    when (challengeDataState) {
+                        is ChallengeDataStatusUIState.Success -> {
+                            val challenges =
+                                (challengeDataState as ChallengeDataStatusUIState.Success).data.data
+
+                            LazyRow(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                items(challenges) { challenge ->
+                                    MissionCard(
+                                        imageRes = R.drawable.image_6,
+                                        label = challenge.name
+                                    )
+                                }
+                            }
+                        }
+                        is ChallengeDataStatusUIState.Loading -> {
+                            Text(
+                                text = "Loading Challenges...",
+                                color = Color.Gray,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                        is ChallengeDataStatusUIState.Failed -> {
+                            Text(
+                                text = "Failed to load challenges.",
+                                color = Color.Red,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                        else -> Unit
+                    }
+                }
+            }
+
+            // Achievement Badges Section
+            item {
+                Column(Modifier.padding(vertical = 20.dp)) {
                     Row(Modifier.fillMaxWidth().padding(bottom = 10.dp)) {
                         Text(
                             text = "Achievement Badges",
@@ -132,30 +193,23 @@ fun Homepage(
                         )
                     }
 
-                    // Main Content Row
                     Row(
                         Modifier
                             .fillMaxWidth()
-                            .background(containerColor, shape = RoundedCornerShape(12.dp))
+                            .background(Color(0xFF1E1E1E), shape = RoundedCornerShape(12.dp))
                             .padding(vertical = 20.dp)
-                            .clickable(
-                                onClick = {
-                                    navController.navigate(PagesEnum.AchievementView.name) {
-                                        popUpTo(PagesEnum.AchievementView.name) {
-                                            inclusive = true
-                                        }
-                                    }
+                            .clickable {
+                                navController.navigate(PagesEnum.AchievementView.name) {
+                                    popUpTo(PagesEnum.AchievementView.name) { inclusive = true }
                                 }
-                            ),
+                            },
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center // Centers content horizontally
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        // Single Column for all content
                         Column(
-                            horizontalAlignment = Alignment.CenterHorizontally, // Centers content within the Column
-                            modifier = Modifier.padding(horizontal = 16.dp) // Add padding for spacing
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.padding(horizontal = 16.dp)
                         ) {
-                            // Image
                             Image(
                                 painter = painterResource(id = R.drawable.image_1),
                                 contentDescription = null,
@@ -163,45 +217,42 @@ fun Homepage(
                                     .size(100.dp)
                                     .padding(bottom = 15.dp)
                             )
-                            // Title Text
                             Text(
                                 text = "Check All of Your Available Achievements!",
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = customFont,
-                                textAlign = TextAlign.Center // Centers the text
+                                textAlign = TextAlign.Center
                             )
-                            // Subtitle Text
-                            Row(Modifier.fillMaxWidth().padding(top = 20.dp ,end = 11.dp), horizontalArrangement = Arrangement.End) {
+                            Row(
+                                Modifier.fillMaxWidth().padding(top = 20.dp, end = 11.dp),
+                                horizontalArrangement = Arrangement.End
+                            ) {
                                 Text(
                                     text = "See All Achievements",
                                     color = Color(0xFF9CFF00),
                                     fontFamily = customFont,
-                                    textAlign = TextAlign.End, // Centers the text
                                     fontSize = 10.sp
                                 )
                             }
-
                         }
                     }
-
                 }
             }
-
         }
 
         // Fixed Menu Bar
         MenuBar(
-            selectedMenu = selectedMenu, // Pass the currently selected menu
+            selectedMenu = selectedMenu,
             onMenuClick = { menu ->
-                if (menu != "Home") { // Avoid navigating to the current screen
+                if (menu != "Home") {
                     navController.navigate(menu.lowercase()) {
-                        launchSingleTop = true // Avoid multiple instances of the same destination
+                        launchSingleTop = true
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth(), // Ensures MenuBar spans the full width
-            navController = navController // Add navController here
+            modifier = Modifier.fillMaxWidth(),
+            navController = navController
         )
     }
 }
@@ -220,10 +271,11 @@ fun getCurrentGreeting(authenticationViewModel: AuthenticationViewModel): String
     return "$greeting, $userName"
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PrevHomepage() {
-    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
-    Homepage(authenticationViewModel = mockViewModel, navController = rememberNavController())
-}
+//@RequiresApi(Build.VERSION_CODES.O)
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun PrevHomepage() {
+//    val mockViewModel = AuthenticationViewModel(FakeAuthenticationRepository())
+//    val challengeViewModel = ChallengeViewModel()
+//    Homepage(authenticationViewModel = mockViewModel, navController = rememberNavController(), challengeViewModel = challengeViewModel)
+//}
