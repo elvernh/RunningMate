@@ -23,11 +23,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.runningmate.R
 
 @Composable
 fun MissionCard(
-    imageRes: Int,
+    imageRes: String,
     label: String
 ) {
     val customFont = FontFamily(Font(R.font.lexend))
@@ -43,7 +45,7 @@ fun MissionCard(
     ) {
         // Image background
         Image(
-            painter = painterResource(id = imageRes),
+            painter = rememberAsyncImagePainter(imageRes),
             contentDescription = null,
             contentScale = ContentScale.Fit,
             modifier = Modifier
@@ -78,11 +80,11 @@ fun MissionCard(
 
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PreviewMissionCard() {
-    MissionCard(
-        imageRes = R.drawable.image_6,
-        label = "Run For 15 Minutes"
-    )
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun PreviewMissionCard() {
+//    MissionCard(
+//        imageRes = R.drawable.image_6,
+//        label = "Run For 15 Minutes"
+//    )
+//}

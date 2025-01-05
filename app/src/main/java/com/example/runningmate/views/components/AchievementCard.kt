@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.runningmate.R
 
 enum class AchievementState {
@@ -62,8 +63,8 @@ fun AchievementCard(
             ) {
                 // Image
                 Image(
-                    painter = painterResource(id = R.drawable.image_1),
-//                    painter = rememberAsyncImagePainter(imageUrl), // Use imageUrl if you're passing an external URL
+//                    painter = painterResource(id = R.drawable.image_1),
+                    painter = rememberAsyncImagePainter(imageUrl), // Use imageUrl if you're passing an external URL
                     contentDescription = null,
                     modifier = Modifier
                         .size(60.dp)  // Ensure consistent size for the image

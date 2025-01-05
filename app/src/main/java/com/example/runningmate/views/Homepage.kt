@@ -164,7 +164,7 @@ fun Homepage(
                             ) {
                                 items(challenges) { challenge ->
                                     MissionCard(
-                                        imageRes = R.drawable.image_6,
+                                        imageRes = challenge.image,
                                         label = challenge.name
                                     )
                                 }

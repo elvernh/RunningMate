@@ -38,7 +38,7 @@ import com.example.runningmate.views.components.AchievementState
 data class AchievementCardData(
     val title: String,
     val description: String,
-    val imageRes: Int,
+    val imageRes: String,
 )
 
 @Composable
