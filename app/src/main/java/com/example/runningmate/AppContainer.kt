@@ -9,10 +9,13 @@ import com.example.runningmate.repositories.NetworkAchievementRepository
 import com.example.runningmate.repositories.NetworkAuthenticationRepository
 import com.example.runningmate.repositories.NetworkChallengeRepository
 import com.example.runningmate.repositories.NetworkUserRepository
+import com.example.runningmate.repositories.NetworkUsersRepository
 import com.example.runningmate.repositories.UserRepository
+import com.example.runningmate.repositories.UsersRepository
 import com.example.runningmate.services.AchievementAPIService
 import com.example.runningmate.services.AuthenticationAPIService
 import com.example.runningmate.services.ChallengeAPIService
+import com.example.runningmate.services.UsersAPIService
 import com.example.todolistapp.services.UserAPIService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,12 +27,13 @@ interface AppContainer {
     val userRepository: UserRepository
     val achievementRepository: AchievementRepository
     val challengeRepository : ChallengeRepository
+    val usersRepository : UsersRepository
 }
 
 class DefaultAppContainer(
     private val userDataStore: DataStore<Preferences>,
 ): AppContainer{
-    private val APIbaseURL = "http://192.168.1.142:3000/" //isi pake IP address wifi //address hotspot elvern
+    private val APIbaseURL = "http://192.168.1.9:3000/" //isi pake IP address wifi //address hotspot elvern
 
     private val authenticationRetrofitService: AuthenticationAPIService by lazy {
         val retrofit = initRetrofit()
@@ -47,6 +51,12 @@ class DefaultAppContainer(
         val retrofit = initRetrofit()
 
         retrofit.create(ChallengeAPIService::class.java)
+    }
+
+    private val usersretrofitService: UsersAPIService by lazy {
+        val retrofit = initRetrofit()
+
+        retrofit.create(UsersAPIService::class.java)
     }
 
     private fun initRetrofit(): Retrofit {
@@ -80,4 +90,9 @@ class DefaultAppContainer(
     override val challengeRepository: ChallengeRepository by lazy {
         NetworkChallengeRepository(challengeretrofitService)
     }
+
+    override val usersRepository: UsersRepository by lazy {
+        NetworkUsersRepository(usersretrofitService)
+    }
+
 }

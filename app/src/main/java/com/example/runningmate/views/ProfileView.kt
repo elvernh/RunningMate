@@ -53,6 +53,7 @@ fun ProfileView(
     val grayColor = Color(0xFF8F8F8F)
     val neon = Color(0xFF9CFF00)
     val customFont = FontFamily(Font(R.font.lexend)) // Custom font declaration
+
     Column(modifier = Modifier.fillMaxSize()
         .background(backgroundColor)) {
         LazyColumn(
@@ -87,7 +88,7 @@ fun ProfileView(
                         .size(32.dp)
                         .clickable(
                             onClick = {
-
+                                homeViewModel.logoutUser(homeViewModel.token.value, navController)
                             }
                         ))
 

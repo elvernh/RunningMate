@@ -11,3 +11,15 @@ data class UserModel(
     val password: String,
     val token: String?
 )
+
+data class UsersModel(
+    val user_id: Int,
+    val username: String,
+    val email: String,
+    val password: String,
+    val token: String?
+)
+
+data class UsersResponse (
+    val data: List<UsersModel>
+)
